@@ -1,811 +1,1581 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!doctype html>
+
+<html lang="zh-Hant">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Courier New'; color: #131313; -webkit-text-stroke: #131313; background-color: #ffffff}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'PingFang TC'; color: #131313; -webkit-text-stroke: #131313; background-color: #ffffff}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Courier New'; color: #131313; -webkit-text-stroke: #131313; background-color: #ffffff; min-height: 16.0px}
-    span.s1 {font-kerning: none}
-    span.s2 {font: 14.0px 'Courier New'; font-kerning: none}
-    span.s3 {font: 14.0px 'PingFang TC'; font-kerning: none}
-  </style>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="theme-color" content="#13294B">
+
+<title>議會表決系統｜國立嘉義大學學生議會</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap">
+
+<style>
+
+:root{
+
+  --navy:#13294B; --navy-line:#7487A8; --navy-sub:#C9D3E3;
+
+  --ink:#111827; --muted:#4B5563; --line:#CBD2DC; --hair:#E5E7EB; --bg:#F3F4F6; --field:#9CA3AF;
+
+  /* 表決顏色：文字用深色以確保可讀，色塊用飽和色 */
+
+  --yes:#15803D; --no:#B91C1C; --abs:#B38600; --abs-fill:#EAB308; --none:#111827; --away:#B8BEC8;
+
+  --tie:#13294B;
+
+}
+
+*{box-sizing:border-box}
+
+html,body{margin:0;min-height:100%}
+
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',system-ui,-apple-system,sans-serif;-webkit-text-size-adjust:100%}
+
+.num{font-family:Inter,'Noto Sans TC',sans-serif;font-variant-numeric:tabular-nums}
+
+.serif{font-family:'Noto Serif TC','Songti TC',serif}
+
+h1,h2,h3,p{margin:0}
+
+a{color:var(--navy)}
+
+button{font:inherit;cursor:pointer}
+
+input,select{font:inherit}
+
+button:disabled{opacity:.45;cursor:not-allowed}
+
+.hidden{display:none!important}
+
+.muted{color:var(--muted)}
+
+.small{font-size:13px;line-height:1.7}
+
+.label{font-size:13px;color:var(--muted);letter-spacing:.12em}
+
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+.between{justify-content:space-between}
+
+.wrap{max-width:1360px;margin:0 auto;padding:0 24px}
+
+.clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:3px;border:1px solid var(--field);background:#fff;color:var(--ink);font-size:15px;text-decoration:none}
+
+.btn.sm{min-height:36px;padding:0 12px;font-size:13px}
+
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700;letter-spacing:.08em}
+
+.btn.danger{background:var(--no);border-color:var(--no);color:#fff;font-weight:700}
+
+.btn.big{min-height:52px;font-size:17px;padding:0 32px}
+
+.field{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+
+.field input,.field select{min-height:46px;padding:0 12px;border-radius:3px;border:1px solid var(--field);font-size:16px;font-weight:400;background:#fff;color:var(--ink);width:100%}
+
+.field .hint{font-size:13px;font-weight:400;color:var(--muted)}
+
+.card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);padding:20px 24px}
+
+.card-title{font-family:'Noto Serif TC',serif;font-size:19px;font-weight:700;letter-spacing:.08em}
+
+.card-title.ruled{padding-bottom:12px;border-bottom:1px solid var(--line)}
+
+.err{color:var(--no);font-size:14px;min-height:1.4em}
+
+.stamp{font-size:14px;color:var(--yes);border:1px solid var(--yes);padding:5px 12px;white-space:nowrap}
+
+.topbar{background:var(--navy);color:#fff}
+
+.topbar .btn{background:transparent;color:#fff;border-color:var(--navy-line);min-height:44px}
+
+.topbar .btn.light{background:#fff;color:var(--navy);border-color:#fff;font-weight:700}
+
+.org{font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:.08em}
+
+.seg{display:flex;flex-wrap:wrap}
+
+.seg button{min-height:44px;padding:0 14px;margin-right:-1px;border-radius:0;border:1px solid var(--field);background:#fff;color:var(--ink);font-size:15px}
+
+.seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;position:relative}
+
+.notice{max-width:560px;margin:15vh auto;line-height:1.7}
+
+/* 資料列：上粗線、下細線、欄間細線 */
+
+.strip{display:flex;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+
+.strip > *{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:9px 14px;border-right:1px solid var(--line)}
+
+.strip > *:first-child{padding-left:0}
+
+.strip > *:last-child{border-right:none;padding-right:0}
+
+.strip .k{font-size:12px;color:var(--muted)}
+
+.strip .v{font-size:15px;font-weight:700}
+
+.sw{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:baseline}
+
+
+
+.credit{font-size:12px;color:var(--muted);text-align:right;letter-spacing:.02em}
+
+.s-credit{position:absolute;right:calc(var(--u)*3);bottom:calc(var(--u)*.45);font-size:calc(var(--u)*.75);color:var(--muted)}
+
+/* ── 議員手機 ── */
+
+.v-wrap{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#fff}
+
+.v-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;gap:12px}
+
+.v-bar .sub{font-size:12px;color:var(--navy-sub);letter-spacing:.04em}
+
+.v-bar .ttl{font-size:18px}
+
+.v-id{padding:10px 20px;font-size:14px;display:flex;justify-content:space-between;gap:12px;background:var(--bg);border-bottom:1px solid var(--line)}
+
+.v-id .st{font-weight:700;color:var(--yes)}
+
+.v-id .st.wait{color:#B45309}
+
+.v-main{flex:1;display:flex;flex-direction:column;padding:18px 20px 20px;gap:16px}
+
+.v-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:24px}
+
+.v-q{font-size:21px;font-weight:700;line-height:1.45;word-break:break-word}
+
+.v-opts{display:flex;flex-direction:column;gap:10px}
+
+.v-opt{min-height:64px;border-radius:3px;font-size:22px;font-weight:700;letter-spacing:.3em;display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:var(--c);border:2px solid var(--f)}
+
+.v-opt svg{display:none}
+
+.v-opt[aria-pressed="true"]{background:var(--f);color:var(--on)}
+
+.v-opt[aria-pressed="true"] svg{display:block}
+
+.v-opt:disabled{opacity:1}
+
+.v-opt:disabled:not([aria-pressed="true"]){opacity:.35}
+
+.v-confirm{min-height:56px;font-size:18px}
+
+.v-hint{font-size:14px;line-height:1.7;text-align:center;color:#374151}
+
+.v-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
+
+.v-login{max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#fff}
+
+.v-login .hero{background:var(--navy);color:#fff;padding:40px 24px 28px;display:flex;flex-direction:column;gap:6px}
+
+.v-login .hero span{font-size:14px;color:var(--navy-sub);letter-spacing:.06em}
+
+.v-login h1{font-size:30px}
+
+.v-login form{display:flex;flex-direction:column;gap:18px;padding:32px 24px 12px}
+
+.v-login .note{padding:0 24px 32px}
+
+
+
+/* ── 秘書處 ── */
+
+.a-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px}
+
+.a-grid{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;padding-top:24px;padding-bottom:48px}
+
+.a-side{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:12px}
+
+.a-main{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:24px}
+
+.m-row{display:flex;align-items:center;gap:12px;min-height:48px;padding:4px 0;border-top:1px solid var(--hair);cursor:pointer}
+
+.m-chk{width:22px;height:22px;flex:none;margin:0;accent-color:var(--navy);cursor:pointer}
+
+.m-tag{flex:none;font-size:13px;font-weight:700;color:var(--muted);min-width:42px;text-align:right}
+
+.m-tag.on{color:var(--yes)}
+
+
+
+.m-name{font-size:14px;flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+
+.m-st{font-size:12px;color:var(--muted)}
+
+.m-st b{color:var(--muted)}
+
+.m-st b.on{color:var(--ink)}
+
+.m-st b.wait{color:#B45309}
+
+.m-row .btn{flex:none}
+
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+
+@media (max-width:640px){.form-grid{grid-template-columns:minmax(0,1fr)}}
+
+.tallies .v{font-size:30px;font-family:Inter,'Noto Sans TC',sans-serif;font-variant-numeric:tabular-nums}
+
+.tallies .k{font-size:14px}
+
+.table-box{overflow-x:auto}
+
+table{width:100%;min-width:680px;border-collapse:collapse;font-size:14px}
+
+thead tr{border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+
+th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;padding:8px 10px;white-space:nowrap}
+
+td{padding:10px;border-bottom:1px solid var(--hair);vertical-align:top;white-space:nowrap}
+
+td.wide{white-space:normal;min-width:280px}
+
+
+
+/* ── 投影大螢幕（以 --u 為單位隨螢幕縮放；1600×900 時 1u = 16px） ── */
+
+.s-wrap{--u:min(1vw,1.778vh);position:relative;height:100vh;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+
+.s-band{flex:none;height:calc(var(--u)*4.5);background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*3)}
+
+.s-band .org{font-size:calc(var(--u)*1.5)}
+
+.s-band .mt{font-size:calc(var(--u)*1.05);color:var(--navy-sub);margin-left:calc(var(--u)*1.5)}
+
+.s-band .st{font-size:calc(var(--u)*1.05);letter-spacing:.24em;padding:calc(var(--u)*.35) calc(var(--u)*1);border:1px solid var(--navy-line)}
+
+.s-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(var(--u)*1.35);padding:calc(var(--u)*1.6) calc(var(--u)*3) calc(var(--u)*1.9)}
+
+.s-subj{display:flex;flex-direction:column;gap:calc(var(--u)*.35)}
+
+.s-subj .label{font-size:calc(var(--u)*.95)}
+
+.s-title{font-family:'Noto Serif TC',serif;font-size:calc(var(--u)*2.1);font-weight:700;line-height:1.4;word-break:break-word}
+
+.s-info{display:flex;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+
+.s-info > div{flex:1;min-width:0;display:flex;flex-direction:column;gap:calc(var(--u)*.2);padding:calc(var(--u)*.6) calc(var(--u)*1.1) calc(var(--u)*.75);border-right:1px solid var(--line)}
+
+.s-info > div:first-child{padding-left:0}
+
+.s-info > div.end{flex:none;width:calc(var(--u)*17.5);border-right:none;padding-right:0;align-items:flex-end}
+
+.s-info .k{font-size:calc(var(--u)*.88);color:var(--muted)}
+
+.s-info .v{font-size:calc(var(--u)*1.3);font-weight:700}
+
+.s-info .x{font-size:calc(var(--u)*.88);color:var(--muted)}
+
+.s-info .time{font-size:calc(var(--u)*3);font-weight:700;line-height:1.1}
+
+.s-info .res{font-family:'Noto Serif TC',serif;font-size:calc(var(--u)*2.4);font-weight:900;line-height:1.15}
+
+.s-body{flex:1;min-height:0;display:flex;flex-direction:column}
+
+.s-grid{flex:1;min-height:0;display:grid;grid-auto-rows:minmax(0,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+
+.s-tile{background:#fff;min-height:0;min-width:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--dfp,14px)*.3);text-align:center;padding:4px}
+
+.s-tile .d{font-size:var(--dfp,14px);color:var(--muted);line-height:1.2;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+
+.s-tile .n{font-family:'Noto Serif TC',serif;font-size:var(--nfp,40px);font-weight:700;letter-spacing:.06em;line-height:1.2;white-space:nowrap}
+
+.s-anon{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.8);border:1px solid var(--line);background:#F6F7F9}
+
+.s-anon b{font-family:'Noto Serif TC',serif;font-size:calc(var(--u)*2.6);font-weight:700;letter-spacing:.2em}
+
+.s-anon span{font-size:calc(var(--u)*1.25);color:var(--muted)}
+
+.s-foot{display:flex;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+
+.s-t{flex:1;display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*.75);padding:calc(var(--u)*.75) calc(var(--u)*1.4) calc(var(--u)*.75) 0;margin-right:calc(var(--u)*1.4);border-right:1px solid var(--line);font-size:calc(var(--u)*1.3);font-weight:700}
+
+.s-t i{width:calc(var(--u)*.9);height:calc(var(--u)*.9);display:inline-block;margin-right:calc(var(--u)*.6)}
+
+.s-t i.box{border:2px solid var(--none);width:calc(var(--u)*.8);height:calc(var(--u)*.8)}
+
+.s-t .num{font-size:calc(var(--u)*2.25);font-weight:700}
+
+.s-sum{flex:1.3;display:flex;align-items:center;justify-content:flex-end;font-size:calc(var(--u)*1.2);color:var(--muted)}
+
+.s-sum b{color:var(--ink)}
+
+</style>
+
 </head>
+
 <body>
-<p class="p1"><span class="s1">&lt;!doctype html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="zh-Hant"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;meta charset="utf-8"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;meta name="theme-color" content="#13294B"&gt;</span></p>
-<p class="p2"><span class="s2">&lt;title&gt;</span><span class="s1">議會表決系統｜國立嘉義大學學生議會</span><span class="s2">&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></p>
-<p class="p1"><span class="s1">&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&amp;family=Noto+Sans+TC:wght@400;500;700&amp;family=Noto+Serif+TC:wght@600;700;900&amp;display=swap"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;style&gt;</span></p>
-<p class="p1"><span class="s1">:root{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--navy:#13294B; --navy-line:#7487A8; --navy-sub:#C9D3E3;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--ink:#111827; --muted:#4B5563; --line:#CBD2DC; --hair:#E5E7EB; --bg:#F3F4F6; --field:#9CA3AF;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">  </span>/* </span><span class="s1">表決顏色：文字用深色以確保可讀，色塊用飽和色</span><span class="s2"> */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--yes:#15803D; --no:#B91C1C; --abs:#B38600; --abs-fill:#EAB308; --none:#111827; --away:#B8BEC8;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>--tie:#13294B;</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p1"><span class="s1">*{box-sizing:border-box}</span></p>
-<p class="p1"><span class="s1">html,body{margin:0;min-height:100%}</span></p>
-<p class="p1"><span class="s1">body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',system-ui,-apple-system,sans-serif;-webkit-text-size-adjust:100%}</span></p>
-<p class="p1"><span class="s1">.num{font-family:Inter,'Noto Sans TC',sans-serif;font-variant-numeric:tabular-nums}</span></p>
-<p class="p1"><span class="s1">.serif{font-family:'Noto Serif TC','Songti TC',serif}</span></p>
-<p class="p1"><span class="s1">h1,h2,h3,p{margin:0}</span></p>
-<p class="p1"><span class="s1">a{color:var(--navy)}</span></p>
-<p class="p1"><span class="s1">button{font:inherit;cursor:pointer}</span></p>
-<p class="p1"><span class="s1">input,select{font:inherit}</span></p>
-<p class="p1"><span class="s1">button:disabled{opacity:.45;cursor:not-allowed}</span></p>
-<p class="p1"><span class="s1">.hidden{display:none!important}</span></p>
-<p class="p1"><span class="s1">.muted{color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.small{font-size:13px;line-height:1.7}</span></p>
-<p class="p1"><span class="s1">.label{font-size:13px;color:var(--muted);letter-spacing:.12em}</span></p>
-<p class="p1"><span class="s1">.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}</span></p>
-<p class="p1"><span class="s1">.between{justify-content:space-between}</span></p>
-<p class="p1"><span class="s1">.wrap{max-width:1360px;margin:0 auto;padding:0 24px}</span></p>
-<p class="p1"><span class="s1">.clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:3px;border:1px solid var(--field);background:#fff;color:var(--ink);font-size:15px;text-decoration:none}</span></p>
-<p class="p1"><span class="s1">.btn.sm{min-height:36px;padding:0 12px;font-size:13px}</span></p>
-<p class="p1"><span class="s1">.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700;letter-spacing:.08em}</span></p>
-<p class="p1"><span class="s1">.btn.danger{background:var(--no);border-color:var(--no);color:#fff;font-weight:700}</span></p>
-<p class="p1"><span class="s1">.btn.big{min-height:52px;font-size:17px;padding:0 32px}</span></p>
-<p class="p1"><span class="s1">.field{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}</span></p>
-<p class="p1"><span class="s1">.field input,.field select{min-height:46px;padding:0 12px;border-radius:3px;border:1px solid var(--field);font-size:16px;font-weight:400;background:#fff;color:var(--ink);width:100%}</span></p>
-<p class="p1"><span class="s1">.field .hint{font-size:13px;font-weight:400;color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);padding:20px 24px}</span></p>
-<p class="p1"><span class="s1">.card-title{font-family:'Noto Serif TC',serif;font-size:19px;font-weight:700;letter-spacing:.08em}</span></p>
-<p class="p1"><span class="s1">.card-title.ruled{padding-bottom:12px;border-bottom:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.err{color:var(--no);font-size:14px;min-height:1.4em}</span></p>
-<p class="p1"><span class="s1">.stamp{font-size:14px;color:var(--yes);border:1px solid var(--yes);padding:5px 12px;white-space:nowrap}</span></p>
-<p class="p1"><span class="s1">.topbar{background:var(--navy);color:#fff}</span></p>
-<p class="p1"><span class="s1">.topbar .btn{background:transparent;color:#fff;border-color:var(--navy-line);min-height:44px}</span></p>
-<p class="p1"><span class="s1">.topbar .btn.light{background:#fff;color:var(--navy);border-color:#fff;font-weight:700}</span></p>
-<p class="p1"><span class="s1">.org{font-family:'Noto Serif TC',serif;font-weight:700;letter-spacing:.08em}</span></p>
-<p class="p1"><span class="s1">.seg{display:flex;flex-wrap:wrap}</span></p>
-<p class="p1"><span class="s1">.seg button{min-height:44px;padding:0 14px;margin-right:-1px;border-radius:0;border:1px solid var(--field);background:#fff;color:var(--ink);font-size:15px}</span></p>
-<p class="p1"><span class="s1">.seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;position:relative}</span></p>
-<p class="p1"><span class="s1">.notice{max-width:560px;margin:15vh auto;line-height:1.7}</span></p>
-<p class="p2"><span class="s2">/* </span><span class="s1">資料列：上粗線、下細線、欄間細線</span><span class="s2"> */</span></p>
-<p class="p1"><span class="s1">.strip{display:flex;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.strip &gt; *{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:9px 14px;border-right:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.strip &gt; *:first-child{padding-left:0}</span></p>
-<p class="p1"><span class="s1">.strip &gt; *:last-child{border-right:none;padding-right:0}</span></p>
-<p class="p1"><span class="s1">.strip .k{font-size:12px;color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.strip .v{font-size:15px;font-weight:700}</span></p>
-<p class="p1"><span class="s1">.sw{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:baseline}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">.credit{font-size:12px;color:var(--muted);text-align:right;letter-spacing:.02em}</span></p>
-<p class="p1"><span class="s1">.s-credit{position:absolute;right:calc(var(--u)*3);bottom:calc(var(--u)*.45);font-size:calc(var(--u)*.75);color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">/* ── </span><span class="s3">議員手機</span><span class="s1"> ── */</span></p>
-<p class="p1"><span class="s1">.v-wrap{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#fff}</span></p>
-<p class="p1"><span class="s1">.v-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;gap:12px}</span></p>
-<p class="p1"><span class="s1">.v-bar .sub{font-size:12px;color:var(--navy-sub);letter-spacing:.04em}</span></p>
-<p class="p1"><span class="s1">.v-bar .ttl{font-size:18px}</span></p>
-<p class="p1"><span class="s1">.v-id{padding:10px 20px;font-size:14px;display:flex;justify-content:space-between;gap:12px;background:var(--bg);border-bottom:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.v-id .st{font-weight:700;color:var(--yes)}</span></p>
-<p class="p1"><span class="s1">.v-id .st.wait{color:#B45309}</span></p>
-<p class="p1"><span class="s1">.v-main{flex:1;display:flex;flex-direction:column;padding:18px 20px 20px;gap:16px}</span></p>
-<p class="p1"><span class="s1">.v-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:24px}</span></p>
-<p class="p1"><span class="s1">.v-q{font-size:21px;font-weight:700;line-height:1.45;word-break:break-word}</span></p>
-<p class="p1"><span class="s1">.v-opts{display:flex;flex-direction:column;gap:10px}</span></p>
-<p class="p1"><span class="s1">.v-opt{min-height:64px;border-radius:3px;font-size:22px;font-weight:700;letter-spacing:.3em;display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:var(--c);border:2px solid var(--f)}</span></p>
-<p class="p1"><span class="s1">.v-opt svg{display:none}</span></p>
-<p class="p1"><span class="s1">.v-opt[aria-pressed="true"]{background:var(--f);color:var(--on)}</span></p>
-<p class="p1"><span class="s1">.v-opt[aria-pressed="true"] svg{display:block}</span></p>
-<p class="p1"><span class="s1">.v-opt:disabled{opacity:1}</span></p>
-<p class="p1"><span class="s1">.v-opt:disabled:not([aria-pressed="true"]){opacity:.35}</span></p>
-<p class="p1"><span class="s1">.v-confirm{min-height:56px;font-size:18px}</span></p>
-<p class="p1"><span class="s1">.v-hint{font-size:14px;line-height:1.7;text-align:center;color:#374151}</span></p>
-<p class="p1"><span class="s1">.v-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.v-login{max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:#fff}</span></p>
-<p class="p1"><span class="s1">.v-login .hero{background:var(--navy);color:#fff;padding:40px 24px 28px;display:flex;flex-direction:column;gap:6px}</span></p>
-<p class="p1"><span class="s1">.v-login .hero span{font-size:14px;color:var(--navy-sub);letter-spacing:.06em}</span></p>
-<p class="p1"><span class="s1">.v-login h1{font-size:30px}</span></p>
-<p class="p1"><span class="s1">.v-login form{display:flex;flex-direction:column;gap:18px;padding:32px 24px 12px}</span></p>
-<p class="p1"><span class="s1">.v-login .note{padding:0 24px 32px}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">/* ── </span><span class="s3">秘書處</span><span class="s1"> ── */</span></p>
-<p class="p1"><span class="s1">.a-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px}</span></p>
-<p class="p1"><span class="s1">.a-grid{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;padding-top:24px;padding-bottom:48px}</span></p>
-<p class="p1"><span class="s1">.a-side{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:12px}</span></p>
-<p class="p1"><span class="s1">.a-main{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:24px}</span></p>
-<p class="p1"><span class="s1">.m-row{display:flex;align-items:center;gap:12px;min-height:48px;padding:4px 0;border-top:1px solid var(--hair);cursor:pointer}</span></p>
-<p class="p1"><span class="s1">.m-chk{width:22px;height:22px;flex:none;margin:0;accent-color:var(--navy);cursor:pointer}</span></p>
-<p class="p1"><span class="s1">.m-tag{flex:none;font-size:13px;font-weight:700;color:var(--muted);min-width:42px;text-align:right}</span></p>
-<p class="p1"><span class="s1">.m-tag.on{color:var(--yes)}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">.m-name{font-size:14px;flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}</span></p>
-<p class="p1"><span class="s1">.m-st{font-size:12px;color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.m-st b{color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.m-st b.on{color:var(--ink)}</span></p>
-<p class="p1"><span class="s1">.m-st b.wait{color:#B45309}</span></p>
-<p class="p1"><span class="s1">.m-row .btn{flex:none}</span></p>
-<p class="p1"><span class="s1">.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}</span></p>
-<p class="p1"><span class="s1">@media (max-width:640px){.form-grid{grid-template-columns:minmax(0,1fr)}}</span></p>
-<p class="p1"><span class="s1">.tallies .v{font-size:30px;font-family:Inter,'Noto Sans TC',sans-serif;font-variant-numeric:tabular-nums}</span></p>
-<p class="p1"><span class="s1">.tallies .k{font-size:14px}</span></p>
-<p class="p1"><span class="s1">.table-box{overflow-x:auto}</span></p>
-<p class="p1"><span class="s1">table{width:100%;min-width:680px;border-collapse:collapse;font-size:14px}</span></p>
-<p class="p1"><span class="s1">thead tr{border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;padding:8px 10px;white-space:nowrap}</span></p>
-<p class="p1"><span class="s1">td{padding:10px;border-bottom:1px solid var(--hair);vertical-align:top;white-space:nowrap}</span></p>
-<p class="p1"><span class="s1">td.wide{white-space:normal;min-width:280px}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">/* ── </span><span class="s3">投影大螢幕（以</span><span class="s1"> --u </span><span class="s3">為單位隨螢幕縮放；</span><span class="s1">1600×900 </span><span class="s3">時</span><span class="s1"> 1u = 16px</span><span class="s3">）</span><span class="s1"> ── */</span></p>
-<p class="p1"><span class="s1">.s-wrap{--u:min(1vw,1.778vh);position:relative;height:100vh;overflow:hidden;background:#fff;display:flex;flex-direction:column}</span></p>
-<p class="p1"><span class="s1">.s-band{flex:none;height:calc(var(--u)*4.5);background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--u)*3)}</span></p>
-<p class="p1"><span class="s1">.s-band .org{font-size:calc(var(--u)*1.5)}</span></p>
-<p class="p1"><span class="s1">.s-band .mt{font-size:calc(var(--u)*1.05);color:var(--navy-sub);margin-left:calc(var(--u)*1.5)}</span></p>
-<p class="p1"><span class="s1">.s-band .st{font-size:calc(var(--u)*1.05);letter-spacing:.24em;padding:calc(var(--u)*.35) calc(var(--u)*1);border:1px solid var(--navy-line)}</span></p>
-<p class="p1"><span class="s1">.s-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(var(--u)*1.35);padding:calc(var(--u)*1.6) calc(var(--u)*3) calc(var(--u)*1.9)}</span></p>
-<p class="p1"><span class="s1">.s-subj{display:flex;flex-direction:column;gap:calc(var(--u)*.35)}</span></p>
-<p class="p1"><span class="s1">.s-subj .label{font-size:calc(var(--u)*.95)}</span></p>
-<p class="p1"><span class="s1">.s-title{font-family:'Noto Serif TC',serif;font-size:calc(var(--u)*2.1);font-weight:700;line-height:1.4;word-break:break-word}</span></p>
-<p class="p1"><span class="s1">.s-info{display:flex;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.s-info &gt; div{flex:1;min-width:0;display:flex;flex-direction:column;gap:calc(var(--u)*.2);padding:calc(var(--u)*.6) calc(var(--u)*1.1) calc(var(--u)*.75);border-right:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.s-info &gt; div:first-child{padding-left:0}</span></p>
-<p class="p1"><span class="s1">.s-info &gt; div.end{flex:none;width:calc(var(--u)*17.5);border-right:none;padding-right:0;align-items:flex-end}</span></p>
-<p class="p1"><span class="s1">.s-info .k{font-size:calc(var(--u)*.88);color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.s-info .v{font-size:calc(var(--u)*1.3);font-weight:700}</span></p>
-<p class="p1"><span class="s1">.s-info .x{font-size:calc(var(--u)*.88);color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.s-info .time{font-size:calc(var(--u)*3);font-weight:700;line-height:1.1}</span></p>
-<p class="p1"><span class="s1">.s-info .res{font-family:'Noto Serif TC',serif;font-size:calc(var(--u)*2.4);font-weight:900;line-height:1.15}</span></p>
-<p class="p1"><span class="s1">.s-body{flex:1;min-height:0;display:flex;flex-direction:column}</span></p>
-<p class="p1"><span class="s1">.s-grid{flex:1;min-height:0;display:grid;grid-auto-rows:minmax(0,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.s-tile{background:#fff;min-height:0;min-width:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--dfp,14px)*.3);text-align:center;padding:4px}</span></p>
-<p class="p1"><span class="s1">.s-tile .d{font-size:var(--dfp,14px);color:var(--muted);line-height:1.2;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}</span></p>
-<p class="p1"><span class="s1">.s-tile .n{font-family:'Noto Serif TC',serif;font-size:var(--nfp,40px);font-weight:700;letter-spacing:.06em;line-height:1.2;white-space:nowrap}</span></p>
-<p class="p1"><span class="s1">.s-anon{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*.8);border:1px solid var(--line);background:#F6F7F9}</span></p>
-<p class="p1"><span class="s1">.s-anon b{font-family:'Noto Serif TC',serif;font-size:calc(var(--u)*2.6);font-weight:700;letter-spacing:.2em}</span></p>
-<p class="p1"><span class="s1">.s-anon span{font-size:calc(var(--u)*1.25);color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.s-foot{display:flex;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}</span></p>
-<p class="p1"><span class="s1">.s-t{flex:1;display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*.75);padding:calc(var(--u)*.75) calc(var(--u)*1.4) calc(var(--u)*.75) 0;margin-right:calc(var(--u)*1.4);border-right:1px solid var(--line);font-size:calc(var(--u)*1.3);font-weight:700}</span></p>
-<p class="p1"><span class="s1">.s-t i{width:calc(var(--u)*.9);height:calc(var(--u)*.9);display:inline-block;margin-right:calc(var(--u)*.6)}</span></p>
-<p class="p1"><span class="s1">.s-t i.box{border:2px solid var(--none);width:calc(var(--u)*.8);height:calc(var(--u)*.8)}</span></p>
-<p class="p1"><span class="s1">.s-t .num{font-size:calc(var(--u)*2.25);font-weight:700}</span></p>
-<p class="p1"><span class="s1">.s-sum{flex:1.3;display:flex;align-items:center;justify-content:flex-end;font-size:calc(var(--u)*1.2);color:var(--muted)}</span></p>
-<p class="p1"><span class="s1">.s-sum b{color:var(--ink)}</span></p>
-<p class="p1"><span class="s1">&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;div id="app"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1">&lt;script&gt;</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">const ORG = '</span><span class="s3">國立嘉義大學學生議會</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1">const API_URL = 'https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec';</span></p>
-<p class="p1"><span class="s1">const POLL_MS = { voter: 2000, admin: 2000, screen: 1500 };</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">const $ = (s, r = document) =&gt; r.querySelector(s);</span></p>
-<p class="p1"><span class="s1">const esc = s =&gt; String(s == null ? '' : s).replace(/[&amp;&lt;&gt;"']/g, c =&gt; ({ '&amp;': '&amp;amp;', '&lt;': '&amp;lt;', '&gt;': '&amp;gt;', '"': '&amp;quot;', "'": '&amp;#39;' }[c]));</span></p>
-<p class="p1"><span class="s1">const store = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }</span></p>
-<p class="p1"><span class="s1">};</span></p>
-<p class="p1"><span class="s1">const COLORS = { yes: 'var(--yes)', no: 'var(--no)', abs: 'var(--abs)', none: 'var(--none)', away: 'var(--away)' }; // </span><span class="s3">文字色</span></p>
-<p class="p1"><span class="s1">const FILL = { yes: 'var(--yes)', no: 'var(--no)', abs: 'var(--abs-fill)' }; <span class="Apple-converted-space">                                        </span>// </span><span class="s3">色塊</span></p>
-<p class="p1"><span class="s1">const ON = { yes: '#fff', no: '#fff', abs: 'var(--ink)' }; <span class="Apple-converted-space">                                                            </span>// </span><span class="s3">色塊上的文字</span></p>
-<p class="p1"><span class="s1">const TONE = { pass: 'var(--yes)', fail: 'var(--no)', tie: 'var(--tie)' };</span></p>
-<p class="p1"><span class="s1">const RULES = ['</span><span class="s3">簡單多數決</span><span class="s1">', '</span><span class="s3">出席過半數</span><span class="s1">', '</span><span class="s3">出席三分之二</span><span class="s1">', '</span><span class="s3">全體過半數</span><span class="s1">', '</span><span class="s3">全體三分之二</span><span class="s1">'];</span></p>
-<p class="p1"><span class="s1">const labelsFor = kind =&gt; kind === '</span><span class="s3">人事案</span><span class="s1">' ? { yes: '</span><span class="s3">同意</span><span class="s1">', no: '</span><span class="s3">不同意</span><span class="s1">' } : { yes: '</span><span class="s3">贊成</span><span class="s1">', no: '</span><span class="s3">反對</span><span class="s1">', abs: '</span><span class="s3">棄權</span><span class="s1">' };</span></p>
-<p class="p1"><span class="s1">const keysFor = kind =&gt; kind === '</span><span class="s3">人事案</span><span class="s1">' ? ['yes', 'no'] : ['yes', 'no', 'abs'];</span></p>
-<p class="p1"><span class="s1">const CHECK = '&lt;svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"&gt;&lt;path d="M5 12l5 5 9-10"/&gt;&lt;/svg&gt;';</span></p>
-<p class="p2"><span class="s2">const CREDIT = '</span><span class="s1">本系統由國立臺北大學三峽校區學生議會提供並協助架設</span><span class="s2">';</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p2"><span class="s2">/* </span><span class="s1">伺服器時間校正，讓每台裝置倒數一致</span><span class="s2"> */</span></p>
-<p class="p1"><span class="s1">let offset = 0;</span></p>
-<p class="p1"><span class="s1">const now = () =&gt; Date.now() + offset;</span></p>
-<p class="p1"><span class="s1">const leftSec = endsAt =&gt; Math.max(0, Math.ceil((endsAt - now()) / 1000));</span></p>
-<p class="p1"><span class="s1">const fmt = s =&gt; String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">async function api(action, data = {}) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const t0 = Date.now();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const res = await fetch(API_URL, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>method: 'POST',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>headers: { 'Content-Type': 'text/plain;charset=utf-8' },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body: JSON.stringify(Object.assign({ action }, data))</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const j = await res.json();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (j.now) offset = j.now - Math.round((t0 + Date.now()) / 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>return j;</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function needTextFor(rule, kind, present, total) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const L = labelsFor(kind);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let n = null;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (rule === '</span><span class="s3">出席過半數</span><span class="s1">') n = Math.floor(present / 2) + 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (rule === '</span><span class="s3">出席三分之二</span><span class="s1">') n = Math.ceil(present * 2 / 3);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (rule === '</span><span class="s3">全體過半數</span><span class="s1">') n = Math.floor(total / 2) + 1;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (rule === '</span><span class="s3">全體三分之二</span><span class="s1">') n = Math.ceil(total * 2 / 3);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>return n === null ? `${L.yes}</span><span class="s3">多於</span><span class="s1">${L.no}</span><span class="s3">即通過</span><span class="s1">${kind === '</span><span class="s3">人事案</span><span class="s1">' ? '' : '</span><span class="s3">（棄權不計）</span><span class="s1">'}` : `${L.yes}</span><span class="s3">須達</span><span class="s1"> ${n} </span><span class="s3">票</span><span class="s1">`;</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">/* ───── </span><span class="s3">路由與輪詢</span><span class="s1"> ───── */</span></p>
-<p class="p1"><span class="s1">let gen = 0, pollTimer = null;</span></p>
-<p class="p1"><span class="s1">const tickers = new Set();</span></p>
-<p class="p1"><span class="s1">setInterval(() =&gt; tickers.forEach(f =&gt; f()), 250);</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function poll(fn, ms) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const g = gen;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const run = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (g !== gen) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try { await fn(); } catch (e) { console.error(e); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (g === gen) pollTimer = setTimeout(run, ms);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>run();</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function route() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>gen++;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.title = '</span><span class="s3">議會表決系統｜國立嘉義大學學生議會</span><span class="s1">' + ORG;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>clearTimeout(pollTimer);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>tickers.clear();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.body.style.background = '';</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">  </span>if (API_URL.indexOf('</span><span class="s1">https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec</span><span class="s2">') &gt;= 0) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#app').innerHTML = '&lt;div class="card notice"&gt;&lt;h2 class="card-title"&gt;</span><span class="s3">尚未設定後端網址</span><span class="s1">&lt;/h2&gt;&lt;p class="muted"&gt;</span><span class="s3">請在</span><span class="s1"> index.html </span><span class="s3">開頭的</span><span class="s1"> &lt;code&gt;API_URL&lt;/code&gt; </span><span class="s3">貼上</span><span class="s1"> Apps Script </span><span class="s3">網頁應用程式的部署網址。</span><span class="s1">&lt;/p&gt;&lt;/div&gt;';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const h = location.hash.replace(/^#\/?/, '');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (h === 'screen') Screen();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>else if (h === 'admin') Admin();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>else Voter();</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p1"><span class="s1">window.addEventListener('hashchange', route);</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">/* ═══════════ </span><span class="s3">議員手機</span><span class="s1"> ═══════════ */</span></p>
-<p class="p1"><span class="s1">function Voter() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const token = store.get('vote_token');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!token) return VoterLogin();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const app = $('#app');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>app.innerHTML = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="v-wrap"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;header class="topbar"&gt;&lt;div class="v-bar"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;div class="sub"&gt;${ORG}&lt;/div&gt;&lt;div class="ttl org"&gt;</span><span class="s3">議會表決系統</span><span class="s1">&lt;/div&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="btn" id="logout"&gt;</span><span class="s3">登出</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;&lt;/header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="v-id"&gt;&lt;span id="me"&gt;</span><span class="s3">載入中</span><span class="s1">…&lt;/span&gt;&lt;span class="st" id="status"&gt;</span><span class="s3">連線中</span><span class="s1">…&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;main class="v-main" id="main"&gt;&lt;/main&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p class="credit" style="padding:0 20px 14px"&gt;${CREDIT}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#logout').onclick = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try { await api('logout', { token }); } catch (e) {}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>store.set('vote_token', null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>route();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let data = null, viewKey = '', selected = null, sending = false, hintErr = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const main = $('#main');</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function render() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const v = data.vote;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#me').textContent = data.me.district ? `${data.me.name}</span><span class="s3">　</span><span class="s1">${data.me.district}` : data.me.name;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const st = $('#status');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>st.className = 'st' + (data.present ? '' : ' wait');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>st.textContent = data.present ? '</span><span class="s3">已確認出席</span><span class="s1">' : '</span><span class="s3">待秘書處確認出席</span><span class="s1">';</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let mode = 'wait';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (v &amp;&amp; v.status === 'voting') mode = v.eligible ? 'ballot' : 'inelig';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>else if (v &amp;&amp; v.status === 'closed') mode = 'closed';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const key = mode + '|' + (v ? v.id : '');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (key !== viewKey) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>viewKey = key; selected = null; sending = false; hintErr = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>tickers.clear();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (mode === 'wait') {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>main.innerHTML = `&lt;div class="v-empty"&gt;&lt;h2 class="serif" style="font-size:20px"&gt;</span><span class="s3">目前無進行中之表決</span><span class="s1">&lt;/h2&gt;&lt;p class="muted" style="line-height:1.7"&gt;</span><span class="s3">秘書處宣布開始表決後，本頁將自動顯示表決選項。</span><span class="s1">&lt;/p&gt;&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else if (mode === 'inelig') {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>main.innerHTML = `${head(v, false)}&lt;div class="v-empty"&gt;&lt;h2 class="serif" style="font-size:18px"&gt;</span><span class="s3">表決開始時尚未確認出席</span><span class="s1">&lt;/h2&gt;&lt;p class="muted" style="line-height:1.7"&gt;</span><span class="s3">本案無法參與表決，如有疑問請洽秘書處。</span><span class="s1">&lt;/p&gt;&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else if (mode === 'closed') {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>main.innerHTML = `${head(v, false)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="strip"&gt;&lt;div style="flex-direction:row;justify-content:space-between;align-items:center;padding:12px 0"&gt;&lt;span class="muted"&gt;</span><span class="s3">本人投票</span><span class="s1">&lt;/span&gt;&lt;span class="serif" id="mine" style="font-size:24px;font-weight:700"&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;p class="muted small"&gt;</span><span class="s3">表決已截止。表決結果以投影畫面及主席宣告為準。</span><span class="s1">&lt;/p&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const L = labelsFor(v.kind);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>main.innerHTML = `${head(v, true)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="v-opts"&gt;${keysFor(v.kind).map(k =&gt; `&lt;button class="v-opt" data-k="${k}" style="--c:${COLORS[k]};--f:${FILL[k]};--on:${ON[k]}" aria-pressed="false"&gt;${CHECK}${L[k]}&lt;/button&gt;`).join('')}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn primary v-confirm" id="confirm" disabled&gt;</span><span class="s3">確認送出</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;p class="v-hint" id="hint" role="status"&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="v-foot"&gt;&lt;span class="num"&gt;${v.billId ? esc(v.billId) + '</span><span class="s3">・</span><span class="s1">' : ''}${esc(v.kind)}&lt;/span&gt;&lt;span class="num" id="cnt"&gt;&lt;/span&gt;&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>main.querySelectorAll('.v-opt').forEach(b =&gt; b.onclick = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if (confirmed() || sending) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>selected = b.dataset.k; hintErr = ''; update();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>$('#confirm').onclick = submit;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let wasEnded = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const tick = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const s = leftSec(data.vote.endsAt);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const el = $('#left');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if (!el) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>el.textContent = fmt(s);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>el.style.color = s &lt;= 10 ? 'var(--no)' : '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>if ((s === 0) !== wasEnded) { wasEnded = s === 0; update(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tickers.add(tick); tick();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>update();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function head(v, withTimer) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `&lt;div style="display:flex;flex-direction:column;gap:4px"&gt;&lt;span class="label"&gt;</span><span class="s3">表決事項</span><span class="s1">&lt;/span&gt;&lt;h2 class="v-q serif"&gt;${esc(v.title)}&lt;/h2&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="strip"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;span class="k"&gt;</span><span class="s3">表決方式</span><span class="s1">&lt;/span&gt;&lt;span class="v"&gt;${v.named ? '</span><span class="s3">記名表決</span><span class="s1">' : '</span><span class="s3">不記名表決</span><span class="s1">'}&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div&gt;&lt;span class="k"&gt;</span><span class="s3">可決門檻</span><span class="s1">&lt;/span&gt;&lt;span class="v"&gt;${esc(v.rule)}&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>${withTimer ? '&lt;div style="align-items:flex-end"&gt;&lt;span class="k"&gt;</span><span class="s3">剩餘時間</span><span class="s1">&lt;/span&gt;&lt;span class="v num" id="left" style="font-size:22px;line-height:1.1"&gt;--:--&lt;/span&gt;&lt;/div&gt;' : ''}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">  </span>/* </span><span class="s1">已確認送出的選項（伺服器為準；不記名表決截止後改用本機紀錄顯示）</span><span class="s2"> */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function confirmed() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const v = data.vote;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!v) return null;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return v.myChoice || store.get('vote_choice_' + v.id);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function update() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const v = data.vote;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!v) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const L = labelsFor(v.kind);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const done = confirmed();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const shown = done || selected;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const ended = v.status !== 'voting' || leftSec(v.endsAt) === 0;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>main.querySelectorAll('.v-opt').forEach(b =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>b.setAttribute('aria-pressed', String(b.dataset.k === shown));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>b.disabled = !!done || sending || ended;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cf = $('#confirm');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (cf) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cf.classList.toggle('hidden', !!done);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cf.disabled = !selected || sending || ended;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cf.textContent = sending ? '</span><span class="s3">送出中</span><span class="s1">…' : selected ? `</span><span class="s3">確認送出「</span><span class="s1">${L[selected]}</span><span class="s3">」</span><span class="s1">` : '</span><span class="s3">確認送出</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const hint = $('#hint');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (hint) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint.style.color = hintErr ? 'var(--no)' : '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint.textContent = hintErr</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>|| (done ? `</span><span class="s3">已送出「</span><span class="s1">${L[done]}</span><span class="s3">」。投票已完成，不得更改。</span><span class="s1">`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>: ended ? '</span><span class="s3">表決時間已屆滿。</span><span class="s1">'</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>: selected ? `</span><span class="s3">已選擇「</span><span class="s1">${L[selected]}</span><span class="s3">」，請按「確認送出」。送出後不得更改。</span><span class="s1">`</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">          </span>: '</span><span class="s1">請選擇表決意向，再按「確認送出」。送出後不得更改。</span><span class="s2">');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cnt = $('#cnt');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (cnt) cnt.textContent = `</span><span class="s3">已投</span><span class="s1"> ${v.voted}</span><span class="s3">／出席</span><span class="s1"> ${v.eligibleCount}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const mine = $('#mine');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (mine) { mine.textContent = done ? L[done] : '</span><span class="s3">未投票</span><span class="s1">'; mine.style.color = done ? COLORS[done] : 'var(--muted)'; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>async function submit() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const v = data.vote;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!selected || sending || confirmed()) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>sending = true; hintErr = ''; update();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const r = await api('vote', { token, choice: selected });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (r.relogin) { store.set('vote_token', null); return route(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (r.myChoice) { v.myChoice = r.myChoice; store.set('vote_choice_' + v.id, r.myChoice); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!r.ok) hintErr = r.error;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} catch (e) { hintErr = '</span><span class="s3">網路連線失敗，請再按一次「確認送出」</span><span class="s1">'; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>sending = false; update();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>poll(async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const r = await api('me', { token });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (r.relogin) { store.set('vote_token', null); return route(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!r.ok) { $('#status').textContent = r.error; return; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>data = r;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>render();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}, POLL_MS.voter);</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function loginPage(title, fields, button, note) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>return `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="v-login"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="hero"&gt;&lt;span&gt;${ORG}&lt;/span&gt;&lt;h1 class="org"&gt;${title}&lt;/h1&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;form id="f"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>${fields}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="err" id="err" role="alert"&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="btn primary big" type="submit" id="go"&gt;${button}&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>${note ? `&lt;p class="muted small note"&gt;${note}&lt;/p&gt;` : ''}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p class="credit" style="margin-top:auto;padding:0 24px 14px"&gt;${CREDIT}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function VoterLogin() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#app').innerHTML = loginPage('</span><span class="s3">議會表決系統</span><span class="s1">',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`&lt;label class="field"&gt;</span><span class="s3">帳號</span><span class="s1">&lt;input name="account" autocomplete="username" autocapitalize="none" required&gt;&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>&lt;label class="field"&gt;</span><span class="s3">密碼</span><span class="s1">&lt;input name="password" type="password" autocomplete="current-password" required&gt;&lt;/label&gt;`,</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">    </span>'</span><span class="s1">登入</span><span class="s2">', '</span><span class="s1">帳號由議會秘書處核發，登入後請待秘書處確認出席。同一帳號於新裝置登入後，原裝置將自動登出。</span><span class="s2">');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#f').onsubmit = async e =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>e.preventDefault();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const fd = new FormData(e.target);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#go').disabled = true; $('#err').textContent = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const r = await api('login', { account: String(fd.get('account')).trim(), password: String(fd.get('password')) });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (r.ok) { store.set('vote_token', r.token); return route(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#err').textContent = r.error;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} catch (err) { $('#err').textContent = '</span><span class="s3">網路連線失敗，請再試一次</span><span class="s1">'; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#go').disabled = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">/* ═══════════ </span><span class="s3">秘書處控制台</span><span class="s1"> ═══════════ */</span></p>
-<p class="p1"><span class="s1">function Admin() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const adminToken = store.get('vote_admin');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!adminToken) return AdminLogin();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const app = $('#app');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>app.innerHTML = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header class="topbar"&gt;&lt;div class="wrap a-bar"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="row" style="gap:18px;align-items:baseline"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span class="org" style="font-size:20px"&gt;${ORG}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span style="font-size:15px;color:var(--navy-sub)"&gt;</span><span class="s3">議會表決系統　秘書處控制台　</span><span class="s1">&lt;span id="meeting"&gt;&lt;/span&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn light" href="#/screen" target="_blank" rel="noopener"&gt;</span><span class="s3">開啟投影畫面</span><span class="s1">&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="btn" id="out"&gt;</span><span class="s3">登出</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;&lt;/header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="wrap a-grid"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;aside class="card a-side"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row between" style="padding-bottom:10px;border-bottom:1px solid var(--line)"&gt;&lt;h2 class="card-title"&gt;</span><span class="s3">出席簽到</span><span class="s1">&lt;/h2&gt;&lt;span class="num" style="font-size:24px;font-weight:700" id="pc"&gt;&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">        </span>&lt;p class="muted small"&gt;</span><span class="s1">議員登入後，請確認其本人在場，再勾選「出席」。</span><span class="s2">&lt;b&gt;</span><span class="s1">僅勾選出席者可參與表決</span><span class="s2">&lt;/b&gt;</span><span class="s1">；中途離席請取消勾選。表決開始後之異動，自下一案表決起生效。</span><span class="s2">&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div id="members" style="max-height:62vh;overflow-y:auto;padding-right:4px"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="padding-top:8px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn sm" id="reload"&gt;</span><span class="s3">重新讀取名單</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn sm" id="reset"&gt;</span><span class="s3">清除全部簽到（新會議）</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/aside&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;main class="a-main"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="err hidden" id="aerr" role="alert"&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;section id="current"&gt;&lt;/section&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;section class="card" style="display:flex;flex-direction:column;gap:14px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h2 class="card-title"&gt;</span><span class="s3">表決紀錄</span><span class="s1">&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="table-box"&gt;&lt;table&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;</span><span class="s3">開始時間</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">議案</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">方式</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">門檻</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">出席</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">贊成／反對／棄權</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">未投</span><span class="s1">&lt;/th&gt;&lt;th&gt;</span><span class="s3">結果</span><span class="s1">&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tbody id="hist"&gt;&lt;/tbody&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/table&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/main&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="wrap"&gt;&lt;p class="credit" style="padding-bottom:20px;margin-top:-28px"&gt;${CREDIT}&lt;/p&gt;&lt;/div&gt;`;</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let data = null, mode = '', dismissed = store.get('vote_dismissed');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const form = { billId: '', title: '', kind: '</span><span class="s3">一般議案</span><span class="s1">', named: true, rule: '</span><span class="s3">簡單多數決</span><span class="s1">', seconds: 60 };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const cur = $('#current');</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const showErr = msg =&gt; { const e = $('#aerr'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg); };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>async function act(action, extra = {}) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>showErr('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const r = await api(action, Object.assign({ adminToken }, extra));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (r.relogin) { store.set('vote_admin', null); route(); return null; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!r.ok) { showErr(r.error); return null; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>await refresh();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return r;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} catch (e) { showErr('</span><span class="s3">網路連線失敗，請再試一次</span><span class="s1">'); return null; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#out').onclick = async () =&gt; { try { await api('adminLogout', { adminToken }); } catch (e) {} store.set('vote_admin', null); route(); };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#reload').onclick = () =&gt; act('reloadCouncil');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#reset').onclick = () =&gt; { if (confirm('</span><span class="s3">確定清除所有議員的簽到與登入狀態？（適用於新的一次會議）</span><span class="s1">')) act('resetAttendance'); };</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderMembers() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#meeting').textContent = data.meeting || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#pc').innerHTML = `${data.presentCount}&lt;span style="font-size:15px;color:var(--muted)"&gt; / ${data.total}&lt;/span&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#members').innerHTML = data.members.map(m =&gt; `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;label class="m-row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="checkbox" class="m-chk" data-acct="${esc(m.account)}" ${m.present ? 'checked' : ''} aria-label="${esc(m.name)} </span><span class="s3">出席</span><span class="s1">"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span class="m-name"&gt;&lt;span&gt;&lt;b&gt;${esc(m.name)}&lt;/b&gt;${m.district ? `</span><span class="s3">　</span><span class="s1">&lt;span class="muted" style="font-size:13px"&gt;${esc(m.district)}&lt;/span&gt;` : ''}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span class="m-st"&gt;${m.online ? (m.present ? '&lt;b class="on"&gt;</span><span class="s3">已登入</span><span class="s1">&lt;/b&gt;' : '&lt;b class="wait"&gt;</span><span class="s3">已登入，待確認出席</span><span class="s1">&lt;/b&gt;') : '</span><span class="s3">未登入</span><span class="s1">'}&lt;/span&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span class="m-tag ${m.present ? 'on' : ''}"&gt;${m.present ? '</span><span class="s3">出席</span><span class="s1">' : '</span><span class="s3">未出席</span><span class="s1">'}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/label&gt;`).join('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#members').querySelectorAll('.m-chk').forEach(c =&gt; c.onchange = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>c.disabled = true;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>act('setPresence', { account: c.dataset.acct, present: c.checked });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderHistory() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#hist').innerHTML = data.history.length ? data.history.map(h =&gt; `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;tr&gt;&lt;td class="num"&gt;${esc(h.start)}&lt;/td&gt;&lt;td class="wide"&gt;${esc(h.billId)} ${esc(h.title)}&lt;/td&gt;&lt;td&gt;${esc(h.mode)} · ${esc(h.kind)}&lt;/td&gt;&lt;td&gt;${esc(h.rule)}&lt;/td&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;td class="num"&gt;${esc(h.present)}&lt;/td&gt;&lt;td class="num"&gt;${esc(h.yes)} / ${esc(h.no)} / ${esc(h.abs)}&lt;/td&gt;&lt;td class="num"&gt;${esc(h.notVoted)}&lt;/td&gt;&lt;td style="font-weight:700"&gt;${esc(h.result)}&lt;/td&gt;&lt;/tr&gt;`).join('')</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>: '&lt;tr&gt;&lt;td colspan="8" class="muted"&gt;</span><span class="s3">尚無紀錄</span><span class="s1">&lt;/td&gt;&lt;/tr&gt;';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderCurrent() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const v = data.vote;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let m = 'form';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (v &amp;&amp; v.status === 'voting') m = 'voting';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>else if (v &amp;&amp; v.status === 'closed' &amp;&amp; dismissed !== v.id) m = 'closed';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const key = m + '|' + (v ? v.id : '');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (key !== mode) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>mode = key;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>tickers.clear();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (m === 'form') buildForm();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if (m === 'voting') buildVoting(v);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else buildClosed(v);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (m === 'form') $('#need').textContent = `</span><span class="s3">出席</span><span class="s1"> ${data.presentCount} </span><span class="s3">人；</span><span class="s1">${needTextFor(form.rule, form.kind, data.presentCount, data.total)}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (m === 'voting') fillTallies(v);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function seg(name, opts) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `&lt;div class="seg" data-seg="${name}"&gt;${opts.map(([val, label]) =&gt; `&lt;button type="button" data-v="${esc(JSON.stringify(val))}" aria-pressed="${form[name] === val}"&gt;${label}&lt;/button&gt;`).join('')}&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function buildForm() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>cur.innerHTML = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;form class="card" id="sf" style="display:flex;flex-direction:column;gap:20px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2 class="card-title ruled"&gt;</span><span class="s3">建立表決</span><span class="s1">&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="form-grid"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label class="field"&gt;</span><span class="s3">議案編號</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input name="billId" value="${esc(form.billId)}"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="hint"&gt;</span><span class="s3">選填，依貴會議案編號格式輸入</span><span class="s1">&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label class="field"&gt;</span><span class="s3">表決事項</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;input name="title" required maxlength="500" value="${esc(form.title)}"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="gap:24px;align-items:flex-start"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;&lt;span&gt;</span><span class="s3">案別</span><span class="s1">&lt;/span&gt;${seg('kind', [['</span><span class="s3">一般議案</span><span class="s1">', '</span><span class="s3">一般議案</span><span class="s1">'], ['</span><span class="s3">人事案</span><span class="s1">', '</span><span class="s3">人事案</span><span class="s1">']])}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;&lt;span&gt;</span><span class="s3">表決方式</span><span class="s1">&lt;/span&gt;${seg('named', [[true, '</span><span class="s3">記名</span><span class="s1">'], [false, '</span><span class="s3">不記名</span><span class="s1">']])}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label class="field"&gt;</span><span class="s3">可決門檻（依主席宣告）</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;select name="rule"&gt;${RULES.map(r =&gt; `&lt;option ${r === form.rule ? 'selected' : ''}&gt;${r}&lt;/option&gt;`).join('')}&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="field"&gt;&lt;span&gt;</span><span class="s3">表決時限</span><span class="s1">&lt;/span&gt;${seg('seconds', [[30, '30 </span><span class="s3">秒</span><span class="s1">'], [60, '60 </span><span class="s3">秒</span><span class="s1">'], [90, '90 </span><span class="s3">秒</span><span class="s1">'], [120, '120 </span><span class="s3">秒</span><span class="s1">'], [180, '3 </span><span class="s3">分</span><span class="s1">']])}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row between" style="padding-top:16px;border-top:1px solid var(--line)"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span class="muted" id="need"&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn primary big" type="submit" id="startBtn"&gt;</span><span class="s3">開始表決</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/form&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const f = $('#sf');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>f.billId.oninput = e =&gt; form.billId = e.target.value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>f.title.oninput = e =&gt; form.title = e.target.value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>f.rule.onchange = e =&gt; { form.rule = e.target.value; renderCurrent(); };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>f.querySelectorAll('[data-seg]').forEach(group =&gt; group.querySelectorAll('button').forEach(b =&gt; b.onclick = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>form[group.dataset.seg] = JSON.parse(b.dataset.v);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>group.querySelectorAll('button').forEach(x =&gt; x.setAttribute('aria-pressed', String(x === b)));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>renderCurrent();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>f.onsubmit = async e =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>e.preventDefault();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#startBtn').disabled = true;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const r = await act('start', form);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (r) { form.billId = ''; form.title = ''; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>else if ($('#startBtn')) $('#startBtn').disabled = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function chips(v) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `&lt;span class="label"&gt;${v.status === 'voting' ? '</span><span class="s3">表決進行中</span><span class="s1">' : '</span><span class="s3">表決結束</span><span class="s1">'}</span><span class="s3">　</span><span class="s1">${esc(v.kind)}</span><span class="s3">・</span><span class="s1">${v.named ? '</span><span class="s3">記名</span><span class="s1">' : '</span><span class="s3">不記名</span><span class="s1">'}</span><span class="s3">・</span><span class="s1">${esc(v.rule)}&lt;/span&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function buildVoting(v) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>cur.innerHTML = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card" style="display:flex;flex-direction:column;gap:20px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row between" style="align-items:flex-start;gap:16px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div style="display:flex;flex-direction:column;gap:8px;min-width:0;flex:1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>${chips(v)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2 class="serif" style="font-size:22px;line-height:1.45;word-break:break-word"&gt;${esc(v.billId)}</span><span class="s3">　</span><span class="s1">${esc(v.title)}&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="muted small"&gt;${esc(v.needText)}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div style="text-align:right"&gt;&lt;div class="muted small"&gt;</span><span class="s3">剩餘時間</span><span class="s1">&lt;/div&gt;&lt;div class="num" id="aleft" style="font-size:44px;font-weight:700;line-height:1.1"&gt;--:--&lt;/div&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="strip tallies" id="atal"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="justify-content:flex-end"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn" id="ext"&gt;</span><span class="s3">延長</span><span class="s1"> 30 </span><span class="s3">秒</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn danger" id="stop"&gt;</span><span class="s3">立即截止</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#ext').onclick = () =&gt; act('extend', { seconds: 30 });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#stop').onclick = () =&gt; { if (confirm('</span><span class="s3">確定立即截止本次表決？</span><span class="s1">')) act('stop'); };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const tick = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const el = $('#aleft');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (!el || !data.vote) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const s = leftSec(data.vote.endsAt);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>el.textContent = fmt(s);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>el.style.color = s &lt;= 10 ? 'var(--no)' : '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>tickers.add(tick); tick();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function fillTallies(v) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const L = labelsFor(v.kind), t = v.tallies;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#atal').innerHTML = keysFor(v.kind).map(k =&gt; `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;span class="k"&gt;&lt;i class="sw" style="background:${FILL[k]}"&gt;&lt;/i&gt;${L[k]}&lt;/span&gt;&lt;span class="v" style="color:${COLORS[k]}"&gt;${t[k]}&lt;/span&gt;&lt;/div&gt;`).join('') +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>`&lt;div&gt;&lt;span class="k"&gt;</span><span class="s3">已投／出席</span><span class="s1">&lt;/span&gt;&lt;span class="v"&gt;${t.voted} / ${t.eligible}&lt;/span&gt;&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function summaryText(v) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const L = labelsFor(v.kind), t = v.tallies;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let s = `${v.billId ? v.billId + ' ' : ''}${v.title}</span><span class="s3">：</span><span class="s1">${v.named ? '</span><span class="s3">記名</span><span class="s1">' : '</span><span class="s3">不記名</span><span class="s1">'}</span><span class="s3">表決，出席</span><span class="s1"> ${t.eligible} </span><span class="s3">人，</span><span class="s1">${L.yes} ${t.yes} </span><span class="s3">票、</span><span class="s1">${L.no} ${t.no} </span><span class="s3">票</span><span class="s1">${v.kind === '</span><span class="s3">人事案</span><span class="s1">' ? '' : `</span><span class="s3">、棄權</span><span class="s1"> ${t.abs} </span><span class="s3">票</span><span class="s1">`}</span><span class="s3">，未投票</span><span class="s1"> ${t.notVoted} </span><span class="s3">人；依</span><span class="s1">${v.rule}</span><span class="s3">，表決結果：</span><span class="s1">${v.result.text}${v.result.tone === 'tie' ? '</span><span class="s3">，由主席裁決</span><span class="s1">' : ''}</span><span class="s3">。</span><span class="s1">`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (v.named &amp;&amp; v.tiles) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const g = {};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>v.tiles.forEach(x =&gt; { if (x.s !== 'away') (g[x.s] = g[x.s] || []).push(x.name + (x.district ? `</span><span class="s3">（</span><span class="s1">${x.district}</span><span class="s3">）</span><span class="s1">` : '')); });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const lines = keysFor(v.kind).concat(['none']).filter(k =&gt; g[k]).map(k =&gt; `${k === 'none' ? '</span><span class="s3">未投票</span><span class="s1">' : L[k]}</span><span class="s3">：</span><span class="s1">${g[k].join('</span><span class="s3">、</span><span class="s1">')}`);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (lines.length) s += '\n' + lines.join('\n');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return s;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function buildClosed(v) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>cur.innerHTML = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card" style="display:flex;flex-direction:column;gap:18px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row between" style="gap:16px"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="label"&gt;</span><span class="s3">表決結束　</span><span class="s1">${esc(v.billId)}</span><span class="s3">　</span><span class="s1">${esc(v.title)}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="serif" style="font-size:32px;font-weight:900;color:${TONE[v.result.tone]}"&gt;${esc(v.result.text)}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;span class="muted"&gt;${esc(v.result.note)}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span class="stamp"&gt;</span><span class="s3">已寫入</span><span class="s1"> Google Sheet&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="strip tallies" id="atal"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="justify-content:flex-end"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn" id="copy"&gt;</span><span class="s3">複製結果文字（會議紀錄用）</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button class="btn primary" id="next"&gt;</span><span class="s3">建立下一案表決</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>fillTallies(v);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#copy').onclick = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const text = summaryText(v);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>try { await navigator.clipboard.writeText(text); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>catch (e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ta.select(); document.execCommand('copy'); ta.remove();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#copy').textContent = '</span><span class="s3">已複製</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#next').onclick = () =&gt; { dismissed = v.id; store.set('vote_dismissed', v.id); renderCurrent(); };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>async function refresh() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const r = await api('admin', { adminToken });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (r.relogin) { store.set('vote_admin', null); return route(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!r.ok) return showErr(r.error);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>data = r;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderMembers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderHistory();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderCurrent();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>poll(refresh, POLL_MS.admin);</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function AdminLogin() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#app').innerHTML = loginPage('</span><span class="s3">秘書處登入</span><span class="s1">',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`&lt;label class="field"&gt;</span><span class="s3">秘書處密碼</span><span class="s1">&lt;input name="password" type="password" autocomplete="current-password" required&gt;&lt;/label&gt;`,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>'</span><span class="s3">登入</span><span class="s1">', '');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#f').onsubmit = async e =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>e.preventDefault();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#go').disabled = true; $('#err').textContent = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const r = await api('adminLogin', { password: e.target.password.value });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (r.ok) { store.set('vote_admin', r.adminToken); return route(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#err').textContent = r.error;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} catch (err) { $('#err').textContent = '</span><span class="s3">網路連線失敗，請再試一次</span><span class="s1">'; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#go').disabled = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">/* ═══════════ </span><span class="s3">投影大螢幕</span><span class="s1"> ═══════════ */</span></p>
-<p class="p1"><span class="s1">function Screen() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.body.style.background = '#fff';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#app').innerHTML = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="s-wrap" id="sw" title="</span><span class="s3">按</span><span class="s1"> F </span><span class="s3">或連點兩下切換全螢幕</span><span class="s1">"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="s-band"&gt;&lt;div&gt;&lt;span class="org"&gt;${ORG}&lt;/span&gt;&lt;span class="mt" id="mt"&gt;&lt;/span&gt;&lt;/div&gt;&lt;span class="st" id="st"&gt;</span><span class="s3">連線中</span><span class="s1">&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="s-main"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="s-subj"&gt;&lt;span class="label" id="sl"&gt;</span><span class="s3">表決事項</span><span class="s1">&lt;/span&gt;&lt;h1 class="s-title clamp2" id="title"&gt;&lt;/h1&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="s-info" id="info"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="s-body" id="body"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="s-foot" id="foot"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;span class="s-credit"&gt;${CREDIT}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const toggleFs = () =&gt; { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() =&gt; {}); };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>$('#sw').ondblclick = toggleFs;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.onkeydown = e =&gt; { if (location.hash.indexOf('screen') &gt;= 0 &amp;&amp; (e.key === 'f' || e.key === 'F')) toggleFs(); };</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let last = '', data = null;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const tick = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = $('#sleft');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!el || !data || !data.vote) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const s = leftSec(data.vote.endsAt);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.textContent = fmt(s);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.style.color = s &lt;= 10 ? 'var(--no)' : '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>tickers.add(tick);</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">  </span>/* </span><span class="s1">名牌自適應排版：量測名單區實際大小，在</span><span class="s2"> 2–12 </span><span class="s1">欄中挑字最大的排法；</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">     </span></span><span class="s1">字級差距約</span><span class="s2"> 15% </span><span class="s1">以內時，優先選空格最少、名牌比例最協調者。視窗大小改變時自動重排。</span><span class="s2"> */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function fit(n, hasD) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const box = $('#body').getBoundingClientRect();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const W = Math.max(200, box.width - 2), H = Math.max(120, box.height - 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const u = Math.min(innerWidth, innerHeight * 1.778) / 100;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cands = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>for (let c = 2; c &lt;= 12; c++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const r = Math.ceil(n / c), w = W / c, h = H / r;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">      </span>// </span><span class="s1">名字最多約</span><span class="s2"> 4.5 </span><span class="s1">字寬；有選區時多一行小字，名字可用高度較少</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const nf = Math.min(2.8 * u, w / 5, h / (hasD ? 2.2 : 1.6));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cands.push({ c, nf, w, waste: c * r - n, shape: Math.abs(Math.log((w / h) / 2.2)) });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">    </span>// </span><span class="s1">字級在最大值</span><span class="s2"> 85% </span><span class="s1">以內者，優先選空格最少、名牌比例（長寬約</span><span class="s2"> 2.2</span><span class="s1">）最協調者</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const maxNf = Math.max(...cands.map(x =&gt; x.nf));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const best = cands.filter(x =&gt; x.nf &gt;= maxNf * 0.85)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.sort((a, b) =&gt; a.waste - b.waste || a.shape - b.shape || b.nf - a.nf)[0];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const df = Math.min(1.1 * u, Math.max(0.7 * u, best.nf * 0.42), best.w / 7.5);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return { cols: best.c, nf: Math.floor(best.nf), df: Math.floor(df) };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function tiles(list, colorOf) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const L = fit(Math.max(1, list.length), list.some(t =&gt; t.district));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cells = list.map(t =&gt; `&lt;div class="s-tile"&gt;${t.district ? `&lt;span class="d"&gt;${esc(t.district)}&lt;/span&gt;` : ''}&lt;span class="n" style="color:${colorOf(t)}"&gt;${esc(t.name)}&lt;/span&gt;&lt;/div&gt;`);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>while (cells.length % L.cols) cells.push('&lt;div class="s-tile"&gt;&lt;/div&gt;');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return `&lt;div class="s-grid" style="grid-template-columns:repeat(${L.cols},minmax(0,1fr));--nfp:${L.nf}px;--dfp:${L.df}px"&gt;${cells.join('')}&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const cell = (k, v, x, cls) =&gt; `&lt;div class="${cls || ''}"&gt;&lt;span class="k"&gt;${k}&lt;/span&gt;${v}${x ? `&lt;span class="x"&gt;${x}&lt;/span&gt;` : ''}&lt;/div&gt;`;</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function render() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const v = data.vote;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#mt').textContent = data.meeting || '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!v) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#st').textContent = '</span><span class="s3">等候表決</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#sl').textContent = '</span><span class="s3">本次會議</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#title').textContent = '</span><span class="s3">目前無進行中之表決</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#info').innerHTML = cell('</span><span class="s3">出席人數</span><span class="s1">', `&lt;span class="v num"&gt;${data.presentCount}&lt;/span&gt;`) + cell('</span><span class="s3">全體議員</span><span class="s1">', `&lt;span class="v num"&gt;${data.total}&lt;/span&gt;`) +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>cell('</span><span class="s3">說明</span><span class="s1">', '&lt;span class="v" style="font-weight:500"&gt;</span><span class="s3">名單中深色為經確認出席之議員，淺灰為未出席</span><span class="s1">&lt;/span&gt;', '', '');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#foot').innerHTML = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#foot').style.display = 'none';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>$('#body').innerHTML = tiles(data.members, m =&gt; m.present ? 'var(--none)' : 'var(--away)');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#foot').style.display = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const L = labelsFor(v.kind), t = v.tallies;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#st').textContent = v.status === 'voting' ? '</span><span class="s3">表決進行中</span><span class="s1">' : '</span><span class="s3">表決結束</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#sl').textContent = '</span><span class="s3">表決事項</span><span class="s1">';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#title').textContent = v.title;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#info').innerHTML =</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cell('</span><span class="s3">議案編號</span><span class="s1">', `&lt;span class="v num"&gt;${esc(v.billId || '—')}&lt;/span&gt;`) +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cell('</span><span class="s3">案別</span><span class="s1">', `&lt;span class="v"&gt;${esc(v.kind)}&lt;/span&gt;`) +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cell('</span><span class="s3">表決方式</span><span class="s1">', `&lt;span class="v"&gt;${v.named ? '</span><span class="s3">記名表決</span><span class="s1">' : '</span><span class="s3">不記名表決</span><span class="s1">'}&lt;/span&gt;`) +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>cell('</span><span class="s3">可決門檻</span><span class="s1">', `&lt;span class="v"&gt;${esc(v.rule)}&lt;/span&gt;`, esc(v.needText)) +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>(v.status === 'voting'</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>? cell('</span><span class="s3">剩餘時間</span><span class="s1">', '&lt;span class="time num" id="sleft"&gt;--:--&lt;/span&gt;', '', 'end')</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>: cell('</span><span class="s3">表決結果</span><span class="s1">', `&lt;span class="res" style="color:${TONE[v.result.tone]}"&gt;${esc(v.result.text)}&lt;/span&gt;`, esc(v.result.note), 'end'));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#foot').innerHTML =</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>keysFor(v.kind).map(k =&gt; `&lt;div class="s-t"&gt;&lt;span&gt;&lt;i style="background:${FILL[k]}"&gt;&lt;/i&gt;${L[k]}&lt;/span&gt;&lt;span class="num" style="color:${COLORS[k]}"&gt;${t[k]}&lt;/span&gt;&lt;/div&gt;`).join('') +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>`&lt;div class="s-t" style="color:var(--muted)"&gt;&lt;span&gt;&lt;i class="box"&gt;&lt;/i&gt;</span><span class="s3">未投票</span><span class="s1">&lt;/span&gt;&lt;span class="num" style="color:var(--ink)"&gt;${t.notVoted}&lt;/span&gt;&lt;/div&gt;` +</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>`&lt;div class="s-sum num"&gt;</span><span class="s3">已投</span><span class="s1">&amp;nbsp;&lt;b&gt;${t.voted}&lt;/b&gt;</span><span class="s3">　出席</span><span class="s1">&amp;nbsp;&lt;b&gt;${t.eligible}&lt;/b&gt;</span><span class="s3">　全體</span><span class="s1">&amp;nbsp;${v.total}&lt;/div&gt;`;</span></p>
-<p class="p2"><span class="s2"><span class="Apple-converted-space">    </span>// </span><span class="s1">名牌最後才排，才能量到扣除其他區塊後的實際空間</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#body').innerHTML = v.named</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>? tiles(v.tiles, x =&gt; COLORS[x.s])</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>: `&lt;div class="s-anon"&gt;&lt;b&gt;</span><span class="s3">不記名表決</span><span class="s1">&lt;/b&gt;&lt;span&gt;</span><span class="s3">不公開個別議員投票，僅公布票數</span><span class="s1">&lt;/span&gt;&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>tick();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let rt = null;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>window.onresize = () =&gt; { clearTimeout(rt); rt = setTimeout(() =&gt; { if (data &amp;&amp; location.hash.indexOf('screen') &gt;= 0) render(); }, 150); };</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>poll(async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const r = await api('screen');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!r.ok) { $('#title').textContent = r.error; return; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>data = r;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const sig = JSON.stringify(r.vote) + JSON.stringify(r.members) + r.meeting;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (sig !== last) { last = sig; render(); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}, POLL_MS.screen);</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p3"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">route();</span></p>
-<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+
+<div id="app"></div>
+
+<script>
+
+
+
+const ORG = '國立嘉義大學學生議會';
+
+const API_URL = 'https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec';
+
+const POLL_MS = { voter: 2000, admin: 2000, screen: 1500 };
+
+
+
+
+
+const $ = (s, r = document) => r.querySelector(s);
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const store = {
+
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+
+  set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+
+};
+
+const COLORS = { yes: 'var(--yes)', no: 'var(--no)', abs: 'var(--abs)', none: 'var(--none)', away: 'var(--away)' }; // 文字色
+
+const FILL = { yes: 'var(--yes)', no: 'var(--no)', abs: 'var(--abs-fill)' };                                         // 色塊
+
+const ON = { yes: '#fff', no: '#fff', abs: 'var(--ink)' };                                                             // 色塊上的文字
+
+const TONE = { pass: 'var(--yes)', fail: 'var(--no)', tie: 'var(--tie)' };
+
+const RULES = ['簡單多數決', '出席過半數', '出席三分之二', '全體過半數', '全體三分之二'];
+
+const labelsFor = kind => kind === '人事案' ? { yes: '同意', no: '不同意' } : { yes: '贊成', no: '反對', abs: '棄權' };
+
+const keysFor = kind => kind === '人事案' ? ['yes', 'no'] : ['yes', 'no', 'abs'];
+
+const CHECK = '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12l5 5 9-10"/></svg>';
+
+const CREDIT = '本系統由國立臺北大學三峽校區學生議會提供並協助架設';
+
+
+
+/* 伺服器時間校正，讓每台裝置倒數一致 */
+
+let offset = 0;
+
+const now = () => Date.now() + offset;
+
+const leftSec = endsAt => Math.max(0, Math.ceil((endsAt - now()) / 1000));
+
+const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+
+
+
+async function api(action, data = {}) {
+
+  const t0 = Date.now();
+
+  const res = await fetch(API_URL, {
+
+    method: 'POST',
+
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+
+    body: JSON.stringify(Object.assign({ action }, data))
+
+  });
+
+  const j = await res.json();
+
+  if (j.now) offset = j.now - Math.round((t0 + Date.now()) / 2);
+
+  return j;
+
+}
+
+
+
+function needTextFor(rule, kind, present, total) {
+
+  const L = labelsFor(kind);
+
+  let n = null;
+
+  if (rule === '出席過半數') n = Math.floor(present / 2) + 1;
+
+  if (rule === '出席三分之二') n = Math.ceil(present * 2 / 3);
+
+  if (rule === '全體過半數') n = Math.floor(total / 2) + 1;
+
+  if (rule === '全體三分之二') n = Math.ceil(total * 2 / 3);
+
+  return n === null ? `${L.yes}多於${L.no}即通過${kind === '人事案' ? '' : '（棄權不計）'}` : `${L.yes}須達 ${n} 票`;
+
+}
+
+
+
+/* ───── 路由與輪詢 ───── */
+
+let gen = 0, pollTimer = null;
+
+const tickers = new Set();
+
+setInterval(() => tickers.forEach(f => f()), 250);
+
+
+
+function poll(fn, ms) {
+
+  const g = gen;
+
+  const run = async () => {
+
+    if (g !== gen) return;
+
+    try { await fn(); } catch (e) { console.error(e); }
+
+    if (g === gen) pollTimer = setTimeout(run, ms);
+
+  };
+
+  run();
+
+}
+
+
+
+function route() {
+
+  gen++;
+
+  document.title = '議會表決系統｜國立嘉義大學學生議會' + ORG;
+
+  clearTimeout(pollTimer);
+
+  tickers.clear();
+
+  document.body.style.background = '';
+
+  if (API_URL.indexOf('https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec') >= 0) {
+
+    $('#app').innerHTML = '<div class="card notice"><h2 class="card-title">尚未設定後端網址</h2><p class="muted">請在 index.html 開頭的 <code>API_URL</code> 貼上 Apps Script 網頁應用程式的部署網址。</p></div>';
+
+    return;
+
+  }
+
+  const h = location.hash.replace(/^#\/?/, '');
+
+  if (h === 'screen') Screen();
+
+  else if (h === 'admin') Admin();
+
+  else Voter();
+
+}
+
+window.addEventListener('hashchange', route);
+
+
+
+/* ═══════════ 議員手機 ═══════════ */
+
+function Voter() {
+
+  const token = store.get('vote_token');
+
+  if (!token) return VoterLogin();
+
+  const app = $('#app');
+
+  app.innerHTML = `
+
+    <div class="v-wrap">
+
+      <header class="topbar"><div class="v-bar">
+
+        <div><div class="sub">${ORG}</div><div class="ttl org">議會表決系統</div></div>
+
+        <button class="btn" id="logout">登出</button>
+
+      </div></header>
+
+      <div class="v-id"><span id="me">載入中…</span><span class="st" id="status">連線中…</span></div>
+
+      <main class="v-main" id="main"></main>
+
+      <p class="credit" style="padding:0 20px 14px">${CREDIT}</p>
+
+    </div>`;
+
+  $('#logout').onclick = async () => {
+
+    try { await api('logout', { token }); } catch (e) {}
+
+    store.set('vote_token', null);
+
+    route();
+
+  };
+
+
+
+  let data = null, viewKey = '', selected = null, sending = false, hintErr = '';
+
+  const main = $('#main');
+
+
+
+  function render() {
+
+    const v = data.vote;
+
+    $('#me').textContent = data.me.district ? `${data.me.name}　${data.me.district}` : data.me.name;
+
+    const st = $('#status');
+
+    st.className = 'st' + (data.present ? '' : ' wait');
+
+    st.textContent = data.present ? '已確認出席' : '待秘書處確認出席';
+
+
+
+    let mode = 'wait';
+
+    if (v && v.status === 'voting') mode = v.eligible ? 'ballot' : 'inelig';
+
+    else if (v && v.status === 'closed') mode = 'closed';
+
+    const key = mode + '|' + (v ? v.id : '');
+
+    if (key !== viewKey) {
+
+      viewKey = key; selected = null; sending = false; hintErr = '';
+
+      tickers.clear();
+
+      if (mode === 'wait') {
+
+        main.innerHTML = `<div class="v-empty"><h2 class="serif" style="font-size:20px">目前無進行中之表決</h2><p class="muted" style="line-height:1.7">秘書處宣布開始表決後，本頁將自動顯示表決選項。</p></div>`;
+
+      } else if (mode === 'inelig') {
+
+        main.innerHTML = `${head(v, false)}<div class="v-empty"><h2 class="serif" style="font-size:18px">表決開始時尚未確認出席</h2><p class="muted" style="line-height:1.7">本案無法參與表決，如有疑問請洽秘書處。</p></div>`;
+
+      } else if (mode === 'closed') {
+
+        main.innerHTML = `${head(v, false)}
+
+          <div class="strip"><div style="flex-direction:row;justify-content:space-between;align-items:center;padding:12px 0"><span class="muted">本人投票</span><span class="serif" id="mine" style="font-size:24px;font-weight:700"></span></div></div>
+
+          <p class="muted small">表決已截止。表決結果以投影畫面及主席宣告為準。</p>`;
+
+      } else {
+
+        const L = labelsFor(v.kind);
+
+        main.innerHTML = `${head(v, true)}
+
+          <div class="v-opts">${keysFor(v.kind).map(k => `<button class="v-opt" data-k="${k}" style="--c:${COLORS[k]};--f:${FILL[k]};--on:${ON[k]}" aria-pressed="false">${CHECK}${L[k]}</button>`).join('')}</div>
+
+          <button class="btn primary v-confirm" id="confirm" disabled>確認送出</button>
+
+          <p class="v-hint" id="hint" role="status"></p>
+
+          <div class="v-foot"><span class="num">${v.billId ? esc(v.billId) + '・' : ''}${esc(v.kind)}</span><span class="num" id="cnt"></span></div>`;
+
+        main.querySelectorAll('.v-opt').forEach(b => b.onclick = () => {
+
+          if (confirmed() || sending) return;
+
+          selected = b.dataset.k; hintErr = ''; update();
+
+        });
+
+        $('#confirm').onclick = submit;
+
+        let wasEnded = false;
+
+        const tick = () => {
+
+          const s = leftSec(data.vote.endsAt);
+
+          const el = $('#left');
+
+          if (!el) return;
+
+          el.textContent = fmt(s);
+
+          el.style.color = s <= 10 ? 'var(--no)' : '';
+
+          if ((s === 0) !== wasEnded) { wasEnded = s === 0; update(); }
+
+        };
+
+        tickers.add(tick); tick();
+
+      }
+
+    }
+
+    update();
+
+  }
+
+
+
+  function head(v, withTimer) {
+
+    return `<div style="display:flex;flex-direction:column;gap:4px"><span class="label">表決事項</span><h2 class="v-q serif">${esc(v.title)}</h2></div>
+
+      <div class="strip">
+
+        <div><span class="k">表決方式</span><span class="v">${v.named ? '記名表決' : '不記名表決'}</span></div>
+
+        <div><span class="k">可決門檻</span><span class="v">${esc(v.rule)}</span></div>
+
+        ${withTimer ? '<div style="align-items:flex-end"><span class="k">剩餘時間</span><span class="v num" id="left" style="font-size:22px;line-height:1.1">--:--</span></div>' : ''}
+
+      </div>`;
+
+  }
+
+
+
+  /* 已確認送出的選項（伺服器為準；不記名表決截止後改用本機紀錄顯示） */
+
+  function confirmed() {
+
+    const v = data.vote;
+
+    if (!v) return null;
+
+    return v.myChoice || store.get('vote_choice_' + v.id);
+
+  }
+
+
+
+  function update() {
+
+    const v = data.vote;
+
+    if (!v) return;
+
+    const L = labelsFor(v.kind);
+
+    const done = confirmed();
+
+    const shown = done || selected;
+
+    const ended = v.status !== 'voting' || leftSec(v.endsAt) === 0;
+
+    main.querySelectorAll('.v-opt').forEach(b => {
+
+      b.setAttribute('aria-pressed', String(b.dataset.k === shown));
+
+      b.disabled = !!done || sending || ended;
+
+    });
+
+    const cf = $('#confirm');
+
+    if (cf) {
+
+      cf.classList.toggle('hidden', !!done);
+
+      cf.disabled = !selected || sending || ended;
+
+      cf.textContent = sending ? '送出中…' : selected ? `確認送出「${L[selected]}」` : '確認送出';
+
+    }
+
+    const hint = $('#hint');
+
+    if (hint) {
+
+      hint.style.color = hintErr ? 'var(--no)' : '';
+
+      hint.textContent = hintErr
+
+        || (done ? `已送出「${L[done]}」。投票已完成，不得更改。`
+
+          : ended ? '表決時間已屆滿。'
+
+          : selected ? `已選擇「${L[selected]}」，請按「確認送出」。送出後不得更改。`
+
+          : '請選擇表決意向，再按「確認送出」。送出後不得更改。');
+
+    }
+
+    const cnt = $('#cnt');
+
+    if (cnt) cnt.textContent = `已投 ${v.voted}／出席 ${v.eligibleCount}`;
+
+    const mine = $('#mine');
+
+    if (mine) { mine.textContent = done ? L[done] : '未投票'; mine.style.color = done ? COLORS[done] : 'var(--muted)'; }
+
+  }
+
+
+
+  async function submit() {
+
+    const v = data.vote;
+
+    if (!selected || sending || confirmed()) return;
+
+    sending = true; hintErr = ''; update();
+
+    try {
+
+      const r = await api('vote', { token, choice: selected });
+
+      if (r.relogin) { store.set('vote_token', null); return route(); }
+
+      if (r.myChoice) { v.myChoice = r.myChoice; store.set('vote_choice_' + v.id, r.myChoice); }
+
+      if (!r.ok) hintErr = r.error;
+
+    } catch (e) { hintErr = '網路連線失敗，請再按一次「確認送出」'; }
+
+    sending = false; update();
+
+  }
+
+
+
+  poll(async () => {
+
+    const r = await api('me', { token });
+
+    if (r.relogin) { store.set('vote_token', null); return route(); }
+
+    if (!r.ok) { $('#status').textContent = r.error; return; }
+
+    data = r;
+
+    render();
+
+  }, POLL_MS.voter);
+
+}
+
+
+
+function loginPage(title, fields, button, note) {
+
+  return `
+
+    <div class="v-login">
+
+      <div class="hero"><span>${ORG}</span><h1 class="org">${title}</h1></div>
+
+      <form id="f">
+
+        ${fields}
+
+        <p class="err" id="err" role="alert"></p>
+
+        <button class="btn primary big" type="submit" id="go">${button}</button>
+
+      </form>
+
+      ${note ? `<p class="muted small note">${note}</p>` : ''}
+
+      <p class="credit" style="margin-top:auto;padding:0 24px 14px">${CREDIT}</p>
+
+    </div>`;
+
+}
+
+
+
+function VoterLogin() {
+
+  $('#app').innerHTML = loginPage('議會表決系統',
+
+    `<label class="field">帳號<input name="account" autocomplete="username" autocapitalize="none" required></label>
+
+     <label class="field">密碼<input name="password" type="password" autocomplete="current-password" required></label>`,
+
+    '登入', '帳號由議會秘書處核發，登入後請待秘書處確認出席。同一帳號於新裝置登入後，原裝置將自動登出。');
+
+  $('#f').onsubmit = async e => {
+
+    e.preventDefault();
+
+    const fd = new FormData(e.target);
+
+    $('#go').disabled = true; $('#err').textContent = '';
+
+    try {
+
+      const r = await api('login', { account: String(fd.get('account')).trim(), password: String(fd.get('password')) });
+
+      if (r.ok) { store.set('vote_token', r.token); return route(); }
+
+      $('#err').textContent = r.error;
+
+    } catch (err) { $('#err').textContent = '網路連線失敗，請再試一次'; }
+
+    $('#go').disabled = false;
+
+  };
+
+}
+
+
+
+/* ═══════════ 秘書處控制台 ═══════════ */
+
+function Admin() {
+
+  const adminToken = store.get('vote_admin');
+
+  if (!adminToken) return AdminLogin();
+
+  const app = $('#app');
+
+  app.innerHTML = `
+
+    <header class="topbar"><div class="wrap a-bar">
+
+      <div class="row" style="gap:18px;align-items:baseline">
+
+        <span class="org" style="font-size:20px">${ORG}</span>
+
+        <span style="font-size:15px;color:var(--navy-sub)">議會表決系統　秘書處控制台　<span id="meeting"></span></span>
+
+      </div>
+
+      <div class="row">
+
+        <a class="btn light" href="#/screen" target="_blank" rel="noopener">開啟投影畫面</a>
+
+        <button class="btn" id="out">登出</button>
+
+      </div>
+
+    </div></header>
+
+    <div class="wrap a-grid">
+
+      <aside class="card a-side">
+
+        <div class="row between" style="padding-bottom:10px;border-bottom:1px solid var(--line)"><h2 class="card-title">出席簽到</h2><span class="num" style="font-size:24px;font-weight:700" id="pc"></span></div>
+
+        <p class="muted small">議員登入後，請確認其本人在場，再勾選「出席」。<b>僅勾選出席者可參與表決</b>；中途離席請取消勾選。表決開始後之異動，自下一案表決起生效。</p>
+
+        <div id="members" style="max-height:62vh;overflow-y:auto;padding-right:4px"></div>
+
+        <div class="row" style="padding-top:8px">
+
+          <button class="btn sm" id="reload">重新讀取名單</button>
+
+          <button class="btn sm" id="reset">清除全部簽到（新會議）</button>
+
+        </div>
+
+      </aside>
+
+      <main class="a-main">
+
+        <p class="err hidden" id="aerr" role="alert"></p>
+
+        <section id="current"></section>
+
+        <section class="card" style="display:flex;flex-direction:column;gap:14px">
+
+          <h2 class="card-title">表決紀錄</h2>
+
+          <div class="table-box"><table>
+
+            <thead><tr><th>開始時間</th><th>議案</th><th>方式</th><th>門檻</th><th>出席</th><th>贊成／反對／棄權</th><th>未投</th><th>結果</th></tr></thead>
+
+            <tbody id="hist"></tbody>
+
+          </table></div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+    <div class="wrap"><p class="credit" style="padding-bottom:20px;margin-top:-28px">${CREDIT}</p></div>`;
+
+
+
+  let data = null, mode = '', dismissed = store.get('vote_dismissed');
+
+  const form = { billId: '', title: '', kind: '一般議案', named: true, rule: '簡單多數決', seconds: 60 };
+
+  const cur = $('#current');
+
+
+
+  const showErr = msg => { const e = $('#aerr'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg); };
+
+  async function act(action, extra = {}) {
+
+    showErr('');
+
+    try {
+
+      const r = await api(action, Object.assign({ adminToken }, extra));
+
+      if (r.relogin) { store.set('vote_admin', null); route(); return null; }
+
+      if (!r.ok) { showErr(r.error); return null; }
+
+      await refresh();
+
+      return r;
+
+    } catch (e) { showErr('網路連線失敗，請再試一次'); return null; }
+
+  }
+
+
+
+  $('#out').onclick = async () => { try { await api('adminLogout', { adminToken }); } catch (e) {} store.set('vote_admin', null); route(); };
+
+  $('#reload').onclick = () => act('reloadCouncil');
+
+  $('#reset').onclick = () => { if (confirm('確定清除所有議員的簽到與登入狀態？（適用於新的一次會議）')) act('resetAttendance'); };
+
+
+
+  function renderMembers() {
+
+    $('#meeting').textContent = data.meeting || '';
+
+    $('#pc').innerHTML = `${data.presentCount}<span style="font-size:15px;color:var(--muted)"> / ${data.total}</span>`;
+
+    $('#members').innerHTML = data.members.map(m => `
+
+      <label class="m-row">
+
+        <input type="checkbox" class="m-chk" data-acct="${esc(m.account)}" ${m.present ? 'checked' : ''} aria-label="${esc(m.name)} 出席">
+
+        <span class="m-name"><span><b>${esc(m.name)}</b>${m.district ? `　<span class="muted" style="font-size:13px">${esc(m.district)}</span>` : ''}</span>
+
+          <span class="m-st">${m.online ? (m.present ? '<b class="on">已登入</b>' : '<b class="wait">已登入，待確認出席</b>') : '未登入'}</span></span>
+
+        <span class="m-tag ${m.present ? 'on' : ''}">${m.present ? '出席' : '未出席'}</span>
+
+      </label>`).join('');
+
+    $('#members').querySelectorAll('.m-chk').forEach(c => c.onchange = () => {
+
+      c.disabled = true;
+
+      act('setPresence', { account: c.dataset.acct, present: c.checked });
+
+    });
+
+  }
+
+
+
+  function renderHistory() {
+
+    $('#hist').innerHTML = data.history.length ? data.history.map(h => `
+
+      <tr><td class="num">${esc(h.start)}</td><td class="wide">${esc(h.billId)} ${esc(h.title)}</td><td>${esc(h.mode)} · ${esc(h.kind)}</td><td>${esc(h.rule)}</td>
+
+      <td class="num">${esc(h.present)}</td><td class="num">${esc(h.yes)} / ${esc(h.no)} / ${esc(h.abs)}</td><td class="num">${esc(h.notVoted)}</td><td style="font-weight:700">${esc(h.result)}</td></tr>`).join('')
+
+      : '<tr><td colspan="8" class="muted">尚無紀錄</td></tr>';
+
+  }
+
+
+
+  function renderCurrent() {
+
+    const v = data.vote;
+
+    let m = 'form';
+
+    if (v && v.status === 'voting') m = 'voting';
+
+    else if (v && v.status === 'closed' && dismissed !== v.id) m = 'closed';
+
+    const key = m + '|' + (v ? v.id : '');
+
+    if (key !== mode) {
+
+      mode = key;
+
+      tickers.clear();
+
+      if (m === 'form') buildForm();
+
+      else if (m === 'voting') buildVoting(v);
+
+      else buildClosed(v);
+
+    }
+
+    if (m === 'form') $('#need').textContent = `出席 ${data.presentCount} 人；${needTextFor(form.rule, form.kind, data.presentCount, data.total)}`;
+
+    if (m === 'voting') fillTallies(v);
+
+  }
+
+
+
+  function seg(name, opts) {
+
+    return `<div class="seg" data-seg="${name}">${opts.map(([val, label]) => `<button type="button" data-v="${esc(JSON.stringify(val))}" aria-pressed="${form[name] === val}">${label}</button>`).join('')}</div>`;
+
+  }
+
+
+
+  function buildForm() {
+
+    cur.innerHTML = `
+
+      <form class="card" id="sf" style="display:flex;flex-direction:column;gap:20px">
+
+        <h2 class="card-title ruled">建立表決</h2>
+
+        <div class="form-grid">
+
+          <label class="field">議案編號
+
+            <input name="billId" value="${esc(form.billId)}">
+
+            <span class="hint">選填，依貴會議案編號格式輸入</span>
+
+          </label>
+
+          <label class="field">表決事項
+
+            <input name="title" required maxlength="500" value="${esc(form.title)}">
+
+          </label>
+
+        </div>
+
+        <div class="row" style="gap:24px;align-items:flex-start">
+
+          <div class="field"><span>案別</span>${seg('kind', [['一般議案', '一般議案'], ['人事案', '人事案']])}</div>
+
+          <div class="field"><span>表決方式</span>${seg('named', [[true, '記名'], [false, '不記名']])}</div>
+
+          <label class="field">可決門檻（依主席宣告）
+
+            <select name="rule">${RULES.map(r => `<option ${r === form.rule ? 'selected' : ''}>${r}</option>`).join('')}</select>
+
+          </label>
+
+          <div class="field"><span>表決時限</span>${seg('seconds', [[30, '30 秒'], [60, '60 秒'], [90, '90 秒'], [120, '120 秒'], [180, '3 分']])}</div>
+
+        </div>
+
+        <div class="row between" style="padding-top:16px;border-top:1px solid var(--line)">
+
+          <span class="muted" id="need"></span>
+
+          <button class="btn primary big" type="submit" id="startBtn">開始表決</button>
+
+        </div>
+
+      </form>`;
+
+    const f = $('#sf');
+
+    f.billId.oninput = e => form.billId = e.target.value;
+
+    f.title.oninput = e => form.title = e.target.value;
+
+    f.rule.onchange = e => { form.rule = e.target.value; renderCurrent(); };
+
+    f.querySelectorAll('[data-seg]').forEach(group => group.querySelectorAll('button').forEach(b => b.onclick = () => {
+
+      form[group.dataset.seg] = JSON.parse(b.dataset.v);
+
+      group.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+
+      renderCurrent();
+
+    }));
+
+    f.onsubmit = async e => {
+
+      e.preventDefault();
+
+      $('#startBtn').disabled = true;
+
+      const r = await act('start', form);
+
+      if (r) { form.billId = ''; form.title = ''; }
+
+      else if ($('#startBtn')) $('#startBtn').disabled = false;
+
+    };
+
+  }
+
+
+
+  function chips(v) {
+
+    return `<span class="label">${v.status === 'voting' ? '表決進行中' : '表決結束'}　${esc(v.kind)}・${v.named ? '記名' : '不記名'}・${esc(v.rule)}</span>`;
+
+  }
+
+
+
+  function buildVoting(v) {
+
+    cur.innerHTML = `
+
+      <div class="card" style="display:flex;flex-direction:column;gap:20px">
+
+        <div class="row between" style="align-items:flex-start;gap:16px">
+
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:0;flex:1">
+
+            ${chips(v)}
+
+            <h2 class="serif" style="font-size:22px;line-height:1.45;word-break:break-word">${esc(v.billId)}　${esc(v.title)}</h2>
+
+            <span class="muted small">${esc(v.needText)}</span>
+
+          </div>
+
+          <div style="text-align:right"><div class="muted small">剩餘時間</div><div class="num" id="aleft" style="font-size:44px;font-weight:700;line-height:1.1">--:--</div></div>
+
+        </div>
+
+        <div class="strip tallies" id="atal"></div>
+
+        <div class="row" style="justify-content:flex-end">
+
+          <button class="btn" id="ext">延長 30 秒</button>
+
+          <button class="btn danger" id="stop">立即截止</button>
+
+        </div>
+
+      </div>`;
+
+    $('#ext').onclick = () => act('extend', { seconds: 30 });
+
+    $('#stop').onclick = () => { if (confirm('確定立即截止本次表決？')) act('stop'); };
+
+    const tick = () => {
+
+      const el = $('#aleft');
+
+      if (!el || !data.vote) return;
+
+      const s = leftSec(data.vote.endsAt);
+
+      el.textContent = fmt(s);
+
+      el.style.color = s <= 10 ? 'var(--no)' : '';
+
+    };
+
+    tickers.add(tick); tick();
+
+  }
+
+
+
+  function fillTallies(v) {
+
+    const L = labelsFor(v.kind), t = v.tallies;
+
+    $('#atal').innerHTML = keysFor(v.kind).map(k => `
+
+      <div><span class="k"><i class="sw" style="background:${FILL[k]}"></i>${L[k]}</span><span class="v" style="color:${COLORS[k]}">${t[k]}</span></div>`).join('') +
+
+      `<div><span class="k">已投／出席</span><span class="v">${t.voted} / ${t.eligible}</span></div>`;
+
+  }
+
+
+
+  function summaryText(v) {
+
+    const L = labelsFor(v.kind), t = v.tallies;
+
+    let s = `${v.billId ? v.billId + ' ' : ''}${v.title}：${v.named ? '記名' : '不記名'}表決，出席 ${t.eligible} 人，${L.yes} ${t.yes} 票、${L.no} ${t.no} 票${v.kind === '人事案' ? '' : `、棄權 ${t.abs} 票`}，未投票 ${t.notVoted} 人；依${v.rule}，表決結果：${v.result.text}${v.result.tone === 'tie' ? '，由主席裁決' : ''}。`;
+
+    if (v.named && v.tiles) {
+
+      const g = {};
+
+      v.tiles.forEach(x => { if (x.s !== 'away') (g[x.s] = g[x.s] || []).push(x.name + (x.district ? `（${x.district}）` : '')); });
+
+      const lines = keysFor(v.kind).concat(['none']).filter(k => g[k]).map(k => `${k === 'none' ? '未投票' : L[k]}：${g[k].join('、')}`);
+
+      if (lines.length) s += '\n' + lines.join('\n');
+
+    }
+
+    return s;
+
+  }
+
+
+
+  function buildClosed(v) {
+
+    cur.innerHTML = `
+
+      <div class="card" style="display:flex;flex-direction:column;gap:18px">
+
+        <div class="row between" style="gap:16px">
+
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1">
+
+            <span class="label">表決結束　${esc(v.billId)}　${esc(v.title)}</span>
+
+            <span class="serif" style="font-size:32px;font-weight:900;color:${TONE[v.result.tone]}">${esc(v.result.text)}</span>
+
+            <span class="muted">${esc(v.result.note)}</span>
+
+          </div>
+
+          <span class="stamp">已寫入 Google Sheet</span>
+
+        </div>
+
+        <div class="strip tallies" id="atal"></div>
+
+        <div class="row" style="justify-content:flex-end">
+
+          <button class="btn" id="copy">複製結果文字（會議紀錄用）</button>
+
+          <button class="btn primary" id="next">建立下一案表決</button>
+
+        </div>
+
+      </div>`;
+
+    fillTallies(v);
+
+    $('#copy').onclick = async () => {
+
+      const text = summaryText(v);
+
+      try { await navigator.clipboard.writeText(text); }
+
+      catch (e) {
+
+        const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);
+
+        ta.select(); document.execCommand('copy'); ta.remove();
+
+      }
+
+      $('#copy').textContent = '已複製';
+
+    };
+
+    $('#next').onclick = () => { dismissed = v.id; store.set('vote_dismissed', v.id); renderCurrent(); };
+
+  }
+
+
+
+  async function refresh() {
+
+    const r = await api('admin', { adminToken });
+
+    if (r.relogin) { store.set('vote_admin', null); return route(); }
+
+    if (!r.ok) return showErr(r.error);
+
+    data = r;
+
+    renderMembers();
+
+    renderHistory();
+
+    renderCurrent();
+
+  }
+
+
+
+  poll(refresh, POLL_MS.admin);
+
+}
+
+
+
+function AdminLogin() {
+
+  $('#app').innerHTML = loginPage('秘書處登入',
+
+    `<label class="field">秘書處密碼<input name="password" type="password" autocomplete="current-password" required></label>`,
+
+    '登入', '');
+
+  $('#f').onsubmit = async e => {
+
+    e.preventDefault();
+
+    $('#go').disabled = true; $('#err').textContent = '';
+
+    try {
+
+      const r = await api('adminLogin', { password: e.target.password.value });
+
+      if (r.ok) { store.set('vote_admin', r.adminToken); return route(); }
+
+      $('#err').textContent = r.error;
+
+    } catch (err) { $('#err').textContent = '網路連線失敗，請再試一次'; }
+
+    $('#go').disabled = false;
+
+  };
+
+}
+
+
+
+/* ═══════════ 投影大螢幕 ═══════════ */
+
+function Screen() {
+
+  document.body.style.background = '#fff';
+
+  $('#app').innerHTML = `
+
+    <div class="s-wrap" id="sw" title="按 F 或連點兩下切換全螢幕">
+
+      <div class="s-band"><div><span class="org">${ORG}</span><span class="mt" id="mt"></span></div><span class="st" id="st">連線中</span></div>
+
+      <div class="s-main">
+
+        <div class="s-subj"><span class="label" id="sl">表決事項</span><h1 class="s-title clamp2" id="title"></h1></div>
+
+        <div class="s-info" id="info"></div>
+
+        <div class="s-body" id="body"></div>
+
+        <div class="s-foot" id="foot"></div>
+
+      </div>
+
+      <span class="s-credit">${CREDIT}</span>
+
+    </div>`;
+
+  const toggleFs = () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); };
+
+  $('#sw').ondblclick = toggleFs;
+
+  document.onkeydown = e => { if (location.hash.indexOf('screen') >= 0 && (e.key === 'f' || e.key === 'F')) toggleFs(); };
+
+
+
+  let last = '', data = null;
+
+  const tick = () => {
+
+    const el = $('#sleft');
+
+    if (!el || !data || !data.vote) return;
+
+    const s = leftSec(data.vote.endsAt);
+
+    el.textContent = fmt(s);
+
+    el.style.color = s <= 10 ? 'var(--no)' : '';
+
+  };
+
+  tickers.add(tick);
+
+
+
+  /* 名牌自適應排版：量測名單區實際大小，在 2–12 欄中挑字最大的排法；
+
+     字級差距約 15% 以內時，優先選空格最少、名牌比例最協調者。視窗大小改變時自動重排。 */
+
+  function fit(n, hasD) {
+
+    const box = $('#body').getBoundingClientRect();
+
+    const W = Math.max(200, box.width - 2), H = Math.max(120, box.height - 2);
+
+    const u = Math.min(innerWidth, innerHeight * 1.778) / 100;
+
+    const cands = [];
+
+    for (let c = 2; c <= 12; c++) {
+
+      const r = Math.ceil(n / c), w = W / c, h = H / r;
+
+      // 名字最多約 4.5 字寬；有選區時多一行小字，名字可用高度較少
+
+      const nf = Math.min(2.8 * u, w / 5, h / (hasD ? 2.2 : 1.6));
+
+      cands.push({ c, nf, w, waste: c * r - n, shape: Math.abs(Math.log((w / h) / 2.2)) });
+
+    }
+
+    // 字級在最大值 85% 以內者，優先選空格最少、名牌比例（長寬約 2.2）最協調者
+
+    const maxNf = Math.max(...cands.map(x => x.nf));
+
+    const best = cands.filter(x => x.nf >= maxNf * 0.85)
+
+      .sort((a, b) => a.waste - b.waste || a.shape - b.shape || b.nf - a.nf)[0];
+
+    const df = Math.min(1.1 * u, Math.max(0.7 * u, best.nf * 0.42), best.w / 7.5);
+
+    return { cols: best.c, nf: Math.floor(best.nf), df: Math.floor(df) };
+
+  }
+
+
+
+  function tiles(list, colorOf) {
+
+    const L = fit(Math.max(1, list.length), list.some(t => t.district));
+
+    const cells = list.map(t => `<div class="s-tile">${t.district ? `<span class="d">${esc(t.district)}</span>` : ''}<span class="n" style="color:${colorOf(t)}">${esc(t.name)}</span></div>`);
+
+    while (cells.length % L.cols) cells.push('<div class="s-tile"></div>');
+
+    return `<div class="s-grid" style="grid-template-columns:repeat(${L.cols},minmax(0,1fr));--nfp:${L.nf}px;--dfp:${L.df}px">${cells.join('')}</div>`;
+
+  }
+
+
+
+  const cell = (k, v, x, cls) => `<div class="${cls || ''}"><span class="k">${k}</span>${v}${x ? `<span class="x">${x}</span>` : ''}</div>`;
+
+
+
+  function render() {
+
+    const v = data.vote;
+
+    $('#mt').textContent = data.meeting || '';
+
+    if (!v) {
+
+      $('#st').textContent = '等候表決';
+
+      $('#sl').textContent = '本次會議';
+
+      $('#title').textContent = '目前無進行中之表決';
+
+      $('#info').innerHTML = cell('出席人數', `<span class="v num">${data.presentCount}</span>`) + cell('全體議員', `<span class="v num">${data.total}</span>`) +
+
+        cell('說明', '<span class="v" style="font-weight:500">名單中深色為經確認出席之議員，淺灰為未出席</span>', '', '');
+
+      $('#foot').innerHTML = '';
+
+      $('#foot').style.display = 'none';
+
+      $('#body').innerHTML = tiles(data.members, m => m.present ? 'var(--none)' : 'var(--away)');
+
+      return;
+
+    }
+
+    $('#foot').style.display = '';
+
+    const L = labelsFor(v.kind), t = v.tallies;
+
+    $('#st').textContent = v.status === 'voting' ? '表決進行中' : '表決結束';
+
+    $('#sl').textContent = '表決事項';
+
+    $('#title').textContent = v.title;
+
+    $('#info').innerHTML =
+
+      cell('議案編號', `<span class="v num">${esc(v.billId || '—')}</span>`) +
+
+      cell('案別', `<span class="v">${esc(v.kind)}</span>`) +
+
+      cell('表決方式', `<span class="v">${v.named ? '記名表決' : '不記名表決'}</span>`) +
+
+      cell('可決門檻', `<span class="v">${esc(v.rule)}</span>`, esc(v.needText)) +
+
+      (v.status === 'voting'
+
+        ? cell('剩餘時間', '<span class="time num" id="sleft">--:--</span>', '', 'end')
+
+        : cell('表決結果', `<span class="res" style="color:${TONE[v.result.tone]}">${esc(v.result.text)}</span>`, esc(v.result.note), 'end'));
+
+    $('#foot').innerHTML =
+
+      keysFor(v.kind).map(k => `<div class="s-t"><span><i style="background:${FILL[k]}"></i>${L[k]}</span><span class="num" style="color:${COLORS[k]}">${t[k]}</span></div>`).join('') +
+
+      `<div class="s-t" style="color:var(--muted)"><span><i class="box"></i>未投票</span><span class="num" style="color:var(--ink)">${t.notVoted}</span></div>` +
+
+      `<div class="s-sum num">已投&nbsp;<b>${t.voted}</b>　出席&nbsp;<b>${t.eligible}</b>　全體&nbsp;${v.total}</div>`;
+
+    // 名牌最後才排，才能量到扣除其他區塊後的實際空間
+
+    $('#body').innerHTML = v.named
+
+      ? tiles(v.tiles, x => COLORS[x.s])
+
+      : `<div class="s-anon"><b>不記名表決</b><span>不公開個別議員投票，僅公布票數</span></div>`;
+
+    tick();
+
+  }
+
+
+
+  let rt = null;
+
+  window.onresize = () => { clearTimeout(rt); rt = setTimeout(() => { if (data && location.hash.indexOf('screen') >= 0) render(); }, 150); };
+
+
+
+  poll(async () => {
+
+    const r = await api('screen');
+
+    if (!r.ok) { $('#title').textContent = r.error; return; }
+
+    data = r;
+
+    const sig = JSON.stringify(r.vote) + JSON.stringify(r.members) + r.meeting;
+
+    if (sig !== last) { last = sig; render(); }
+
+  }, POLL_MS.screen);
+
+}
+
+
+
+route();
+
+</script>
+
 </body>
+
 </html>
