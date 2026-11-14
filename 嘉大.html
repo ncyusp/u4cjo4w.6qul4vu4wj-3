@@ -177,8 +177,8 @@
 <p class="p1"><span class="s1">&lt;div id="app"&gt;&lt;/div&gt;</span></p>
 <p class="p1"><span class="s1">&lt;script&gt;</span></p>
 <p class="p1"><span class="s1">/* ═══════════════════════════ 設定（請修改這兩行） ═══════════════════════════ */</span></p>
-<p class="p1"><span class="s1">const ORG = '國立嘉義大學學生議會';</span></p>
-<p class="p1"><span class="s1">const API_URL = 'https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec';</span></p>
+<p class="p1"><span class="s1">const ORG = '國立嘉義大學學生議會'; <span class="Apple-converted-space">  </span>// 貴會名稱，例如「○○大學學生議會」，會顯示在每個畫面頂端</span></p>
+<p class="p1"><span class="s1">const API_URL = 'https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec'; <span class="Apple-converted-space">  </span>// Apps Script 部署網址</span></p>
 <p class="p1"><span class="s1">const POLL_MS = { voter: 2000, admin: 2000, screen: 1500 };</span></p>
 <p class="p1"><span class="s1">/* ════════════════════════════════════════════════════════════════════════════ */</span></p>
 <p class="p2"><span class="s1"></span><br></p>
@@ -247,7 +247,7 @@
 <p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>clearTimeout(pollTimer);</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>tickers.clear();</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.body.style.background = '';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (API_URL.indexOf('https://script.google.com/macros/s/AKfycbyr3yC5zVXn-_Wwp3kUSQQMlfdHefrsYMzGulM4DCbiN5aooQk2sSMWAre1NXR6SmTzGQ/exec') &gt;= 0) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (API_URL.indexOf('請貼上') &gt;= 0) {</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>$('#app').innerHTML = '&lt;div class="card notice"&gt;&lt;h2 class="card-title"&gt;尚未設定後端網址&lt;/h2&gt;&lt;p class="muted"&gt;請在 index.html 開頭的 &lt;code&gt;API_URL&lt;/code&gt; 貼上 Apps Script 網頁應用程式的部署網址。&lt;/p&gt;&lt;/div&gt;';</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>return;</span></p>
 <p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
